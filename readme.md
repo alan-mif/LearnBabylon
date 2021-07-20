@@ -1,5 +1,7 @@
 # LearnBabylon
 
+[LearnBabylon doc](https://github.com/drlx-mif/LearnBabylon/tree/master/doc)
+
 ```bash
 # Install dependencies (only the first time)
 npm install
