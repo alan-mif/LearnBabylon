@@ -1,6 +1,6 @@
 # LearnBabylon
 
-[LearnBabylon doc](https://github.com/drlx-mif/LearnBabylon/tree/master/doc)
+document [learn babylon doc](./doc/readme.md)
 
 ```bash
 # Install dependencies (only the first time)
