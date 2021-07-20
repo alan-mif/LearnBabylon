@@ -34,9 +34,9 @@
         
         + #### *局部坐标系*：局部坐标系的原点始终位于物体的创建中心，物体的旋转和放大中心都位于局部坐标系的原点。局部坐标系的原点会跟随物体的位移，对应的在世界坐标系中局部坐标系原点的坐标也会改变。
         
-          ![](C:\Project\LearnBabylon\doc\images\zbx.png)
+          ![2](C:\Project\LearnBabylon\doc\images\zbx.png)
         
     + #### Vector（向量）：也称为欧几里得向量、几何向量、矢量，指具有大小和方向的量。它可以形象化地表示为带箭头的线段。箭头所指：代表向量的方向；线段长度：代表向量的大小。与向量对应的量叫做数量（物理学中称标量），数量（或标量）只有大小，没有方向。
     
-        ![](C:\Project\LearnBabylon\doc\images\image-20210720145221142.png)
+        ![1](C:\Project\LearnBabylon\doc\images\part1.png)
 
