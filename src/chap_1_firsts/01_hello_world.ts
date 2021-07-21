@@ -1,32 +1,24 @@
 export function init() {
-  const canvas: HTMLCanvasElement = document.querySelector('canvas.webgl')
-  canvas.height = window.innerHeight
-  canvas.width = window.innerWidth
+  
+  const canvas: HTMLCanvasElement = document.querySelector('canvas.webgl');
+  canvas.height = window.innerHeight;
+  canvas.width = window.innerWidth;
 
-  const engine = new BABYLON.Engine(canvas, true, { preserveDrawingBuffer: true, stencil: true })
+  const engine = new BABYLON.Engine(canvas, true), // 参数1传入 canvas， 参数2指定是否开启抗锯齿
+    scene = new BABYLON.Scene(engine),
+    camera = new BABYLON.ArcRotateCamera('camera', -Math.PI / 2, Math.PI / 2, 2, new BABYLON.Vector3(0, 0, 0), scene); // 参数1定义相机的name，参数2定义相机沿y轴的旋转弧度，参数3定义相机沿x轴的旋转弧度，参数4定义相机与目标的距离，参数5定义相机的目标，参数6定义相机所属的场景
+  camera.attachControl(canvas, true);
 
-  const createScene = () => {
-    const scene = new BABYLON.Scene(engine)
+  new BABYLON.HemisphericLight('light1', new BABYLON.Vector3(0, 1, 0), scene); // 参数1灯光 name，参数2灯光位置，参数3灯光所在的场景
 
-    const camera = new BABYLON.ArcRotateCamera('camera', -Math.PI / 2, Math.PI / 2.5, 3, new BABYLON.Vector3(0, 0, 0), scene)
-    camera.attachControl(canvas, true)
-
-    const light1 = new BABYLON.HemisphericLight('light1', new BABYLON.Vector3(0, 1, 0), scene)
-
-    const box = BABYLON.MeshBuilder.CreateBox('box', {})
-
-    return scene
-
-  }
-
-  const scene = createScene()
+  BABYLON.MeshBuilder.CreateBox('box', {}); // 参数1 mesh name，参数2 box 的一些参数，这里传入空对象，让其使用默认值
 
   engine.runRenderLoop(() => {
-    scene.render()
-  })
+    scene.render();
+  });
 
   window.addEventListener('resize', () => {
-    engine.resize()
-  })
+    engine.resize();
+  });
 
 }
