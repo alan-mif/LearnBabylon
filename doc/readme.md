@@ -78,7 +78,7 @@ WebGL 允许开发者在浏览器中实现实时的 3D 互动图形。可以应�
     一切都准备好了。下面创建我们的立方体吧！
     
     ```
-    BABYLON.MeshBuilder.CreateBox('box', {}); // 参数1 mesh name，参数2 box 的一些参数，这里传入空对象，让其使用默认值
+    BABYLON.MeshBuilder.CreateBox('box', {}, scene); // 参数1 mesh name，参数2 box 的一些参数，这里传入空对象，让其使用默认值
     ```
     
     最后我们只需要调用 scene的 render 方法就可以让立方体渲染到画布上了。
