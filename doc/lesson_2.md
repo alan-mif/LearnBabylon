@@ -1,4 +1,4 @@
-# *Lesson 2*
+# *Lesson 2 MeshBuilder*
 
 ### 一、Mesh 是怎么构建出来的？
 
@@ -18,7 +18,7 @@
 
 ![](images/face.png)
 
-注意：如果选择正面，那么当相机位于物体的反面时，物体就被隐藏了，反之亦然。如果选择了双面，无论相机如果移动，物体都会被显示出来，这也是最耗费资源的方式。所以如何选择 sideOrientation 的值，需要根据具体的使用场景而定。
+注意：如果选择正面，那么当相机位于物体的反面时，物体就被隐藏了，反之亦然。如果选择了双面，无论相机如何移动，物体都会被显示出来，这也是最耗费资源的方式。所以如何选择 sideOrientation 的值，需要根据具体的使用场景而定。
 
 ```
 const myBox = BABYLON.MeshBuilder.CreateBox("myBox", {height: 5, width: 2, depth: 0.5,sideOrientation:2}, scene);
@@ -103,6 +103,11 @@ const lines = BABYLON.MeshBuilder.CreateLines("lines", {points: myPoints,colors:
 | colors         | (Color4[]) 颜色的数组，一般与points一 一对应，定义每个点的颜色，两点之间线段的颜色由前一个点确定 | null   |
 | useVertexAlpha | (boolean) 如果设置为false，则线条不支持透明度，会节省资源，增加渲染速度 | true   |
 
-动动手尝试一下渲染出不同的形状吧，下面这张图里我们选择渲染了 box、ground、 lines
+动动手尝试一下渲染出不同的形状吧，下面这张图s'w里我们选择渲染了 box、ground、 lines
 
 ![](images/lines.png)
+
+
+
+
+

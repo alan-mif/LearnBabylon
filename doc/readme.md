@@ -1,4 +1,4 @@
-# ***Lesson 1***
+# ***Lesson 1 Hello world***
 
 ### **一、什么是 WebGL 以及 WebGL 能做什么？**
 WebGL 规范由 Khronos Group 协会在2011年3月的美国洛杉矶举办的游戏开发大会上发布，允许把 JavaScript 和 OpenGL ES 2.0 相结合 HTML 5 Canvas，提供硬件 3D 加速渲染，使开发人员可以借助系统显卡在浏览器里展现 3D 场景和模型，使用者在不安装插件的情况下便可以体验 3D 图形技术。
