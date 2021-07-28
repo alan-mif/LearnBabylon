@@ -15,10 +15,10 @@ export function init() {
     const myMaterial = new BABYLON.StandardMaterial("myMaterial", scene); // 参数1 材质 name，参数2 传入 scene
     myMaterial.diffuseColor = new BABYLON.Color3(0, 0, 1);
     myMaterial.emissiveColor = new BABYLON.Color3(0.5, 0.5, 0.5); // 自发光颜色
-    myMaterial.diffuseTexture = new BABYLON.Texture("../textur/defaultImage.png", scene);
+    myMaterial.diffuseTexture = new BABYLON.Texture("../texture/defaultImage.png", scene);
     myMaterial.alpha = 0.5;
     mesh.material = myMaterial;// mesh是之前创建的物体
-
+    
     engine.runRenderLoop(() => {
         scene.render();
     });
