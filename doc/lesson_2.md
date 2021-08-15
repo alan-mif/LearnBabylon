@@ -32,7 +32,7 @@ const myBox = BABYLON.MeshBuilder.CreateBox("myBox", {height: 5, width: 2, depth
 
 ```
 // 创建默认球体
-const sphere = BABYLON.MeshBuilder.CreateSphere("sphere", {}, scene); 
+const sphere = BABYLON.MeshBuilder.CreateSphere("sphere", {}, scene);
 // 设置直径并创建
 const mySphere = BABYLON.MeshBuilder.CreateSphere("mySphere", {diameter: 2, diameterX: 3}, scene);
 ```
