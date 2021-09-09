@@ -72,3 +72,98 @@ scene.beginAnimation(box, 0, 100, true);
 
 运行代码~ okay 动起来咯！（没动的话自己找找原因哈）
 
+### 二、让你的动画更丰富些
+
+上面我们做了一个让立方体沿着x轴方向位移的动画，或许在应用中我们并不一定完全沿着一个轴去进行移动，我们更多情况是提供一些关键帧，在这些关键帧上给出物体的位置，然后插值完成动画。下面我们就来演示一下。
+
+***e.g. 2 移动一个立方体(按位置移动)***
+
+```typescript
+	const positionAnimation = new BABYLON.Animation("positionAnimation", "position", 30, 	 BABYLON.Animation.ANIMATIONTYPE_VECTOR3,BABYLON.Animation.ANIMATIONLOOPMODE_CYCLE); 
+	
+    const positionKeys = [];
+    positionKeys.push({
+        frame: 0,
+        value: new BABYLON.Vector3(0, 0, 0)
+    });
+    positionKeys.push({
+        frame: 30,
+        value: new BABYLON.Vector3(10, 10, 5)
+    });
+    positionKeys.push({
+        frame: 50,
+        value: new BABYLON.Vector3(20, 15, 0)
+    });
+    positionKeys.push({
+        frame: 100,
+        value: new BABYLON.Vector3(0, 0, 0)
+    });
+
+    positionAnimation.setKeys(positionKeys);
+    box.animations = [];
+    box.animations.push(positionAnimation);
+```
+
+*注意：当你修改了第二个参数的时候，要记得把第三个参数也对应改好。*
+
+到此，我们得到了一段在空间中根据我们定义好的关键帧去进行位移的动画，这比我们本节课最初的动画要复杂了一些，可是我想有必要让他再多些东西，比如让这个立方体位移的同时缩放（同理你也可以尝试位移的同时旋转）
+
+***e.g. 3 移动并缩放一个立方体***
+
+```typescript
+
+    const scalingKeys = [];
+    scalingKeys.push({
+        frame: 0,
+        value: new BABYLON.Vector3(1, 1, 1)
+    });
+    scalingKeys.push({
+        frame: 30,
+        value: new BABYLON.Vector3(10, 6, 2)
+    });
+    scalingKeys.push({
+        frame: 50,
+        value: new BABYLON.Vector3(2, 8, 1)
+    });
+    scalingKeys.push({
+        frame: 100,
+        value: new BABYLON.Vector3(1, 1, 1)
+    });
+
+    scalingAnimation.setKeys(scalingKeys);
+    
+    box.animations.push(positionAnimation,scalingAnimation);
+```
+
+这样，我们就把一个立方体的两个属性变化组合到一起形成了一段动画，在应用中你可以尝试更多的组合来达到想要实现的效果。
+
+另外，beginAnimation函数返回一个 **BABYLON.Animatable** 对象，代表 **执行动画实例** 
+
+ 而BABYLON.Animatable对象，支持以下的方法：
+
+- pause() 暂停
+- restart() 重新开始
+- stop() 停止
+- reset() 重置
+
+也就是说，我们可以在动画执行过程中，随时对它进行操作，控制它的状态。
+
+```typescript
+const newAnimation = scene.beginAnimation(box1, 0, 100, true);
+newAnimation.pause();
+```
+
+最后，我们再介绍一种简易的创建动画的方法。
+
+```
+Animation.CreateAndStartAnimation = function(name, mesh, targetProperty, framePerSecond, totalFrame, from, to, loopMode);
+```
+
+不过需要注意的是
+
+- 函数只能定义2个关键帧，也就是对应之前的keys数组，只能插入两个key对象。
+- 函数只能针对物体起作用。
+- 函数一执行，动画就马上生效，新建和执行两个步骤被统一在一起了。
+
+好了，以上就是本节课的全部内容，关于动画的知识肯定不止与此，以上作为基础使我们能够完成多数情况下的操作，如果有更加进阶的需求可以自己继续摸索或者等待后续进阶课程的详细分析。
+

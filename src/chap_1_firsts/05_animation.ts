@@ -15,31 +15,76 @@ export function init() {
     const myMaterial = new BABYLON.StandardMaterial("myMaterial", scene); // 参数1 材质 name，参数2 传入 scene
     myMaterial.diffuseTexture = new BABYLON.Texture("./textures/crate.png", scene);
     box.material = myMaterial;// mesh是之前创建的物体
-    const animationBox = new BABYLON.Animation("myAnimation", "position.x", 30, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CYCLE);
-    const keys = [];
-    keys.push({
+    const positionAnimation = new BABYLON.Animation("positionAnimation", "position", 30, BABYLON.Animation.ANIMATIONTYPE_VECTOR3, BABYLON.Animation.ANIMATIONLOOPMODE_CYCLE);
+    const scalingAnimation = new BABYLON.Animation("scaleAnimation", "scaling", 30, BABYLON.Animation.ANIMATIONTYPE_VECTOR3, BABYLON.Animation.ANIMATIONLOOPMODE_CYCLE)
+
+    // const keys = [];
+    // keys.push({
+    //     frame: 0,
+    //     value: 0
+    // });
+    // keys.push({
+    //     frame: 30, // 代表这个关键帧是动画的第30帧
+    //     value: 20
+    // });
+    // keys.push({
+    //     frame: 50,
+    //     value: 5
+    // });
+    // keys.push({
+    //     frame: 100,
+    //     value: 35
+    // });
+    // engine.runRenderLoop(() => {
+    //     scene.render();
+    // });
+
+    const positionKeys = [];
+    positionKeys.push({
         frame: 0,
-        value: 0
+        value: new BABYLON.Vector3(0, 0, 0)
     });
-    keys.push({
-        frame: 30, // 代表这个关键帧是动画的第30帧
-        value: 20
+    positionKeys.push({
+        frame: 30,
+        value: new BABYLON.Vector3(10, 10, 5)
     });
-    keys.push({
+    positionKeys.push({
         frame: 50,
-        value: 5
+        value: new BABYLON.Vector3(20, 15, 0)
     });
-    keys.push({
+    positionKeys.push({
         frame: 100,
-        value: 35
+        value: new BABYLON.Vector3(0, 0, 0)
     });
+
+    const scalingKeys = [];
+    scalingKeys.push({
+        frame: 0,
+        value: new BABYLON.Vector3(1, 1, 1)
+    });
+    scalingKeys.push({
+        frame: 30,
+        value: new BABYLON.Vector3(10, 6, 2)
+    });
+    scalingKeys.push({
+        frame: 50,
+        value: new BABYLON.Vector3(2, 8, 1)
+    });
+    scalingKeys.push({
+        frame: 100,
+        value: new BABYLON.Vector3(1, 1, 1)
+    });
+
+    positionAnimation.setKeys(positionKeys);
+    scalingAnimation.setKeys(scalingKeys);
+    box.animations = [];
+    box.animations.push(positionAnimation,scalingAnimation);
+
+    scene.beginAnimation(box, 0, 100, true);
+
     engine.runRenderLoop(() => {
         scene.render();
     });
-    animationBox.setKeys(keys);
-    box.animations = [];
-    box.animations.push(animationBox);
-    scene.beginAnimation(box, 0, 100, true);
 
     window.addEventListener('resize', () => {
         engine.resize();
