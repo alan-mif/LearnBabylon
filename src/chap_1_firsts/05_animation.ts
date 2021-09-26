@@ -78,10 +78,10 @@ export function init() {
     positionAnimation.setKeys(positionKeys);
     scalingAnimation.setKeys(scalingKeys);
     box.animations = [];
-    box.animations.push(positionAnimation,scalingAnimation);
+    box.animations.push(positionAnimation, scalingAnimation); // scalingAnimation
 
-    scene.beginAnimation(box, 0, 100, true);
-
+    const animatable = scene.beginAnimation(box, 0, 100, true);
+    // animatable.pause();
     engine.runRenderLoop(() => {
         scene.render();
     });
