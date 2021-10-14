@@ -1,4 +1,4 @@
-interface size {
+interface Size {
     height: number;
     width: number;
     depth: number;
@@ -6,7 +6,7 @@ interface size {
 
 interface Mesh {
     content: BABYLON.Mesh;
-    size: size;
+    size: Size;
 }
 
 export class Collisions {
