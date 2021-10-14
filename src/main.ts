@@ -1,4 +1,4 @@
-import * as Stage from './chap_1_firsts/06_Sprite';
+import {Collisions} from './chap_1_firsts/07_collisions';
 import './style.css';
 
-Stage.init();
+new Collisions();
