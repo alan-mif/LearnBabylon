@@ -77,26 +77,26 @@ export class Collisions {
         // // 创建 ground 并给定高度
         // this.ground = BABYLON.MeshBuilder.CreateGround("myGround", { width: 6, height: 4, subdivisions: 4 }, this.scene);
 
-        // 创建50个随机位置的小球
-        for (let i = 0; i < 50; i++) {
+        // // 创建50个随机位置的小球
+        // for (let i = 0; i < 50; i++) {
 
-            const sphere = BABYLON.MeshBuilder.CreateSphere('sphere' + i, { diameter: 2 }, this.scene);
-            sphere.material = new BABYLON.StandardMaterial("material", this.scene);
-            sphere.position.x = 20 * Math.random();
-            sphere.position.y = 20 * Math.random();
-            sphere.position.z = 20 * Math.random();
+        //     const sphere = BABYLON.MeshBuilder.CreateSphere('sphere' + i, { diameter: 2 }, this.scene);
+        //     sphere.material = new BABYLON.StandardMaterial("material", this.scene);
+        //     sphere.position.x = 20 * Math.random();
+        //     sphere.position.y = 20 * Math.random();
+        //     sphere.position.z = 20 * Math.random();
 
-            this.meshes.push({
-                content: sphere,
-                size: { height: 1, width: 1, depth: 1 },
-                direction: new BABYLON.Vector3(Math.random(), Math.random(), Math.random())
-            });
+        //     this.meshes.push({
+        //         content: sphere,
+        //         size: { height: 1, width: 1, depth: 1 },
+        //         direction: new BABYLON.Vector3(Math.random(), Math.random(), Math.random())
+        //     });
 
-        }
+        // }
 
         this.gravity = new BABYLON.Vector3(0, -9.81, 0); // 定义重力（方向和大小）
 
-        let alpha = Math.PI;
+        // let alpha = Math.PI;
 
         this.engine.runRenderLoop(() => {
 
@@ -115,33 +115,33 @@ export class Collisions {
             // const i = () => !this._intersectsMeshByG(this.meshes[0], this.meshes[1]);
             // (f => f(f))((r: (a: any) => { (a: number): number; }) => (n: number) => n <= -distance && i() && p() ? n * r(r)(n + 0.01) : null)(0.01)
 
-            alpha += 0.1;
+            // alpha += 0.1;
 
-            for (let i = 0; i < this.meshes.length; i++) {
+            // for (let i = 0; i < this.meshes.length; i++) {
 
-                const mesh = this.meshes[i];
-                mesh.content.position.x += mesh.direction.x * Math.cos(alpha);
-                mesh.content.position.y += mesh.direction.y * Math.cos(alpha);
-                mesh.content.position.z += mesh.direction.z * Math.cos(alpha);
+            //     const mesh = this.meshes[i];
+            //     mesh.content.position.x += mesh.direction.x * Math.cos(alpha);
+            //     mesh.content.position.y += mesh.direction.y * Math.cos(alpha);
+            //     mesh.content.position.z += mesh.direction.z * Math.cos(alpha);
 
-                let flag: boolean = false;
+            //     let flag: boolean = false;
 
-                for (let a = 0; a < this.meshes.length; a++) {
+            //     for (let a = 0; a < this.meshes.length; a++) {
 
-                    if (i !== a && mesh.content.intersectsMesh(this.meshes[a].content, false)) {
+            //         if (i !== a && mesh.content.intersectsMesh(this.meshes[a].content, false)) {
 
-                        flag = true;
+            //             flag = true;
 
-                        break;
+            //             break;
 
-                    }
+            //         }
 
-                }
+            //     }
 
-                const material: BABYLON.StandardMaterial = mesh.content.material as BABYLON.StandardMaterial;
-                flag ? material.diffuseColor = new BABYLON.Color3(1, 0, 0) : material.diffuseColor = new BABYLON.Color3(1, 1, 1);
+            //     const material: BABYLON.StandardMaterial = mesh.content.material as BABYLON.StandardMaterial;
+            //     flag ? material.diffuseColor = new BABYLON.Color3(1, 0, 0) : material.diffuseColor = new BABYLON.Color3(1, 1, 1);
 
-            }
+            // }
 
             // const loop = (i: number) => {
 
