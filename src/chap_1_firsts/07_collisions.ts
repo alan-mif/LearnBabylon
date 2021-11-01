@@ -96,6 +96,10 @@ export class Collisions {
 
         this.gravity = new BABYLON.Vector3(0, -9.81, 0); // 定义重力（方向和大小）
 
+        const box: BABYLON.Mesh = BABYLON.MeshBuilder.CreateBox('box', { height: 1, width: 2, depth: 1 }, this.scene);
+        const box2: BABYLON.Mesh = BABYLON.MeshBuilder.CreateBox('box', { height: 0.2, width: 0.2, depth: 0.2 }, this.scene);
+        box2.position.x = 10;
+
         // let alpha = Math.PI;
 
         this.engine.runRenderLoop(() => {
@@ -168,6 +172,9 @@ export class Collisions {
             // }
 
             // loop(0);
+
+            box.rotation.z += 0.01;
+            box2.rotation.z += 0.1;
 
             this.scene.render();
 
