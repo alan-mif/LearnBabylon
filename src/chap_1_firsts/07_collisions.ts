@@ -100,6 +100,12 @@ export class Collisions {
         const box2: BABYLON.Mesh = BABYLON.MeshBuilder.CreateBox('box', { height: 0.2, width: 0.2, depth: 0.2 }, this.scene);
         box2.position.x = 10;
 
+        this.meshes.push({
+            content: box2,
+            size: { height: 0.2, width: 0.2, depth: 0.2 },
+            direction: new BABYLON.Vector3(Math.random(), Math.random(), Math.random())
+        });
+
         // let alpha = Math.PI;
 
         this.engine.runRenderLoop(() => {
@@ -174,7 +180,26 @@ export class Collisions {
             // loop(0);
 
             box.rotation.z += 0.01;
-            box2.rotation.z += 0.1;
+
+            const mesh = this.meshes[0],
+                position = box.position,
+                position2 = mesh.content.position;
+
+            if (Math.abs(position2.x) < 20 && Math.abs(position2.y) < 20 && Math.abs(position2.z) < 20) {
+
+                position2.x += mesh.direction.x;
+                position2.y += mesh.direction.y;
+                position2.z += mesh.direction.z;
+
+            } else {
+
+                mesh.direction = position.subtract(position2).multiply(new BABYLON.Vector3(Math.random(), Math.random(), Math.random())).normalize();
+
+                mesh.content.position = position2.add(mesh.direction);
+
+            }
+
+
 
             this.scene.render();
 
