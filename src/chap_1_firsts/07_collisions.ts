@@ -97,16 +97,18 @@ export class Collisions {
         this.gravity = new BABYLON.Vector3(0, -9.81, 0); // 定义重力（方向和大小）
 
         const box: BABYLON.Mesh = BABYLON.MeshBuilder.CreateBox('box', { height: 1, width: 2, depth: 1 }, this.scene);
-        const box2: BABYLON.Mesh = BABYLON.MeshBuilder.CreateBox('box', { height: 0.2, width: 0.2, depth: 0.2 }, this.scene);
-        box2.position.x = 10;
+        box.material = new BABYLON.StandardMaterial("material", this.scene);
+        const sphere: BABYLON.Mesh = BABYLON.MeshBuilder.CreateSphere('sphere', { diameter: 0.5 }, this.scene);
+        sphere.position.x = 10;
 
         this.meshes.push({
-            content: box2,
+            content: sphere,
             size: { height: 0.2, width: 0.2, depth: 0.2 },
             direction: new BABYLON.Vector3(Math.random(), Math.random(), Math.random())
         });
 
         // let alpha = Math.PI;
+        let times = 0;
 
         this.engine.runRenderLoop(() => {
 
@@ -181,15 +183,22 @@ export class Collisions {
 
             box.rotation.z += 0.01;
 
-            const mesh = this.meshes[0],
-                position = box.position,
-                position2 = mesh.content.position;
+            const mesh: Mesh = this.meshes[0],
+                position: BABYLON.Vector3 = box.position,
+                position2: BABYLON.Vector3 = mesh.content.position,
+                material: BABYLON.StandardMaterial = box.material as BABYLON.StandardMaterial;
 
             if (Math.abs(position2.x) < 20 && Math.abs(position2.y) < 20 && Math.abs(position2.z) < 20) {
 
-                position2.x += mesh.direction.x;
-                position2.y += mesh.direction.y;
-                position2.z += mesh.direction.z;
+                mesh.content.position = position2.add(mesh.direction);
+
+                if (mesh.content.intersectsMesh(box, true)) {
+
+                    material.diffuseColor = new BABYLON.Color3(1, 0, 0);
+
+                    alert('your score: ' + times);
+
+                }
 
             } else {
 
@@ -197,9 +206,9 @@ export class Collisions {
 
                 mesh.content.position = position2.add(mesh.direction);
 
+                times += 1;
+
             }
-
-
 
             this.scene.render();
 
