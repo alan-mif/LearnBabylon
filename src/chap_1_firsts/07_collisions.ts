@@ -29,6 +29,11 @@ export class Collisions {
     private _time: number = 0;
     /** 精度 */
     private _precision: number = 0.01;
+    /** 分数 */
+    private _score: number = 0;
+    /** 是否结束 */
+    private _isOver: boolean = false;
+
 
     /**
      * 构造函数
@@ -108,9 +113,10 @@ export class Collisions {
         });
 
         // let alpha = Math.PI;
-        let times = 0;
 
         this.engine.runRenderLoop(() => {
+
+            if (this._isOver) return;
 
             // this._time = this._time === 0 ? new Date().getTime() : this._time;
 
@@ -196,7 +202,9 @@ export class Collisions {
 
                     material.diffuseColor = new BABYLON.Color3(1, 0, 0);
 
-                    alert('your score: ' + times);
+                    // this._isOver = true;
+
+                    alert('your score: ' + this._score);
 
                 }
 
@@ -206,7 +214,7 @@ export class Collisions {
 
                 mesh.content.position = position2.add(mesh.direction);
 
-                times += 1;
+                this._score += 1;
 
             }
 
