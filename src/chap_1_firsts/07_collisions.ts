@@ -33,6 +33,8 @@ export class Collisions {
     private _score: number = 0;
     /** 是否结束 */
     private _isOver: boolean = false;
+    /** 是否开始 */
+    private _isStart: boolean = false;
 
 
     /**
@@ -198,13 +200,11 @@ export class Collisions {
 
                 mesh.content.position = position2.add(mesh.direction);
 
-                if (mesh.content.intersectsMesh(box, true)) {
+                if (mesh.content.intersectsMesh(box, true) && this._isStart) {
 
                     material.diffuseColor = new BABYLON.Color3(1, 0, 0);
 
-                    // this._isOver = true;
-
-                    alert('your score: ' + this._score);
+                    this._isOver = true;
 
                 }
 
@@ -220,10 +220,54 @@ export class Collisions {
 
             this.scene.render();
 
+            this._isOver && alert('your score: ' + this._score);
+
         });
 
         window.addEventListener('resize', () => {
             this.engine.resize();
+        });
+
+        window.addEventListener('keydown', (event: KeyboardEvent) => {
+
+            switch (event.key) {
+
+                case "Enter":
+
+                    if (!this._isStart) this._isStart = true;
+
+                    break;
+
+                case "w":
+
+                    box.position.y += 0.1;
+
+                    break;
+
+                case "s":
+
+                    box.position.y -= 0.1;
+
+                    break;
+
+                case "a":
+
+                    box.position.x -= 0.1;
+
+                    break;
+
+                case "d":
+
+                    box.position.x += 0.1;
+
+                    break;
+
+                default:
+
+                    break;
+
+            }
+
         });
 
     }
