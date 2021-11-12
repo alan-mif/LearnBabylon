@@ -81,7 +81,7 @@ export class Collisions {
         //     { content: box2, size: { height: 1, width: 2, depth: 2 } }
         // );
 
-        // // 创建 ground 并给定高度
+        // // 创建 ground 
         // this.ground = BABYLON.MeshBuilder.CreateGround("myGround", { width: 6, height: 4, subdivisions: 4 }, this.scene);
 
         // // 创建50个随机位置的小球
