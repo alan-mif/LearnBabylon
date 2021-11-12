@@ -214,7 +214,7 @@ export class Collisions {
 
                 mesh.content.position = position2.add(mesh.direction);
 
-                this._score += 1;
+                if (this._isStart) this._score += 1;
 
             }
 
