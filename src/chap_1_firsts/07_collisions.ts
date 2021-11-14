@@ -29,6 +29,8 @@ export class Collisions {
     private _time: number = 0;
     /** 精度 */
     private _precision: number = 0.01;
+    /** 上次方向 */
+    private _lastDir: BABYLON.Vector3;
     /** 分数 */
     private _score: number = 0;
     /** 是否结束 */
@@ -105,6 +107,8 @@ export class Collisions {
 
         const box: BABYLON.Mesh = BABYLON.MeshBuilder.CreateBox('box', { height: 1, width: 2, depth: 1 }, this.scene);
         box.material = new BABYLON.StandardMaterial("material", this.scene);
+        this._lastDir = box.position.clone();
+
         const sphere: BABYLON.Mesh = BABYLON.MeshBuilder.CreateSphere('sphere', { diameter: 0.5 }, this.scene);
         sphere.position.x = 10;
 
@@ -192,13 +196,12 @@ export class Collisions {
             box.rotation.z += 0.01;
 
             const mesh: Mesh = this.meshes[0],
-                position: BABYLON.Vector3 = box.position,
-                position2: BABYLON.Vector3 = mesh.content.position,
+                position: BABYLON.Vector3 = mesh.content.position,
                 material: BABYLON.StandardMaterial = box.material as BABYLON.StandardMaterial;
 
-            if (Math.abs(position2.x) < 20 && Math.abs(position2.y) < 20 && Math.abs(position2.z) < 20) {
+            if (Math.abs(position.x) < 20 && Math.abs(position.y) < 20 && Math.abs(position.z) < 20) {
 
-                mesh.content.position = position2.add(mesh.direction);
+                mesh.content.position = position.add(mesh.direction);
 
                 if (mesh.content.intersectsMesh(box, true) && this._isStart) {
 
@@ -210,9 +213,9 @@ export class Collisions {
 
             } else {
 
-                mesh.direction = position.subtract(position2).multiply(new BABYLON.Vector3(Math.random(), Math.random(), Math.random())).normalize();
+                mesh.direction = this._lastDir.subtract(position).multiply(new BABYLON.Vector3(Math.random(), Math.random(), Math.random())).normalize();
 
-                mesh.content.position = position2.add(mesh.direction);
+                mesh.content.position = position.add(mesh.direction);
 
                 if (this._isStart) this._score += 1;
 
@@ -240,24 +243,28 @@ export class Collisions {
 
                 case "w":
 
+                    this._lastDir = box.position.clone();
                     box.position.y += 0.1;
 
                     break;
 
                 case "s":
-
+                    
+                    this._lastDir = box.position.clone();
                     box.position.y -= 0.1;
 
                     break;
 
                 case "a":
 
+                    this._lastDir = box.position.clone();
                     box.position.x -= 0.1;
 
                     break;
 
                 case "d":
 
+                    this._lastDir = box.position.clone();
                     box.position.x += 0.1;
 
                     break;
