@@ -29,8 +29,8 @@ export class Collisions {
     private _time: number = 0;
     /** 精度 */
     private _precision: number = 0.01;
-    /** 上次方向 */
-    private _lastDir: BABYLON.Vector3;
+    /** 上次位置 */
+    private _lastPosition: BABYLON.Vector3;
     /** 分数 */
     private _score: number = 0;
     /** 是否结束 */
@@ -86,39 +86,29 @@ export class Collisions {
         // // 创建 ground 
         // this.ground = BABYLON.MeshBuilder.CreateGround("myGround", { width: 6, height: 4, subdivisions: 4 }, this.scene);
 
-        // // 创建50个随机位置的小球
-        // for (let i = 0; i < 50; i++) {
+        // 创建50个随机位置的小球
+        for (let i = 0; i < 50; i++) {
 
-        //     const sphere = BABYLON.MeshBuilder.CreateSphere('sphere' + i, { diameter: 2 }, this.scene);
-        //     sphere.material = new BABYLON.StandardMaterial("material", this.scene);
-        //     sphere.position.x = 20 * Math.random();
-        //     sphere.position.y = 20 * Math.random();
-        //     sphere.position.z = 20 * Math.random();
+            const sphere = BABYLON.MeshBuilder.CreateSphere('sphere' + i, { diameter: 2 }, this.scene);
+            sphere.material = new BABYLON.StandardMaterial("material", this.scene);
+            sphere.position.x = 20 * Math.random();
+            sphere.position.y = 20 * Math.random();
+            sphere.position.z = 20 * Math.random();
 
-        //     this.meshes.push({
-        //         content: sphere,
-        //         size: { height: 1, width: 1, depth: 1 },
-        //         direction: new BABYLON.Vector3(Math.random(), Math.random(), Math.random())
-        //     });
+            this.meshes.push({
+                content: sphere,
+                size: { height: 1, width: 1, depth: 1 },
+                direction: new BABYLON.Vector3(Math.random(), Math.random(), Math.random())
+            });
 
-        // }
+        }
 
         this.gravity = new BABYLON.Vector3(0, -9.81, 0); // 定义重力（方向和大小）
 
-        const box: BABYLON.Mesh = BABYLON.MeshBuilder.CreateBox('box', { height: 1, width: 2, depth: 1 }, this.scene);
-        box.material = new BABYLON.StandardMaterial("material", this.scene);
-        this._lastDir = box.position.clone();
 
-        const sphere: BABYLON.Mesh = BABYLON.MeshBuilder.CreateSphere('sphere', { diameter: 0.5 }, this.scene);
-        sphere.position.x = 10;
 
-        this.meshes.push({
-            content: sphere,
-            size: { height: 0.2, width: 0.2, depth: 0.2 },
-            direction: new BABYLON.Vector3(Math.random(), Math.random(), Math.random())
-        });
 
-        // let alpha = Math.PI;
+        let alpha = Math.PI;
 
         this.engine.runRenderLoop(() => {
 
@@ -139,33 +129,33 @@ export class Collisions {
             // const i = () => !this._intersectsMeshByG(this.meshes[0], this.meshes[1]);
             // (f => f(f))((r: (a: any) => { (a: number): number; }) => (n: number) => n <= -distance && i() && p() ? n * r(r)(n + 0.01) : null)(0.01)
 
-            // alpha += 0.1;
+            alpha += 0.1;
 
-            // for (let i = 0; i < this.meshes.length; i++) {
+            for (let i = 0; i < this.meshes.length; i++) {
 
-            //     const mesh = this.meshes[i];
-            //     mesh.content.position.x += mesh.direction.x * Math.cos(alpha);
-            //     mesh.content.position.y += mesh.direction.y * Math.cos(alpha);
-            //     mesh.content.position.z += mesh.direction.z * Math.cos(alpha);
+                const mesh = this.meshes[i];
+                mesh.content.position.x += mesh.direction.x * Math.cos(alpha);
+                mesh.content.position.y += mesh.direction.y * Math.cos(alpha);
+                mesh.content.position.z += mesh.direction.z * Math.cos(alpha);
 
-            //     let flag: boolean = false;
+                let flag: boolean = false;
 
-            //     for (let a = 0; a < this.meshes.length; a++) {
+                for (let a = 0; a < this.meshes.length; a++) {
 
-            //         if (i !== a && mesh.content.intersectsMesh(this.meshes[a].content, false)) {
+                    if (i !== a && mesh.content.intersectsMesh(this.meshes[a].content, false)) {
 
-            //             flag = true;
+                        flag = true;
 
-            //             break;
+                        break;
 
-            //         }
+                    }
 
-            //     }
+                }
 
-            //     const material: BABYLON.StandardMaterial = mesh.content.material as BABYLON.StandardMaterial;
-            //     flag ? material.diffuseColor = new BABYLON.Color3(1, 0, 0) : material.diffuseColor = new BABYLON.Color3(1, 1, 1);
+                const material: BABYLON.StandardMaterial = mesh.content.material as BABYLON.StandardMaterial;
+                flag ? material.diffuseColor = new BABYLON.Color3(1, 0, 0) : material.diffuseColor = new BABYLON.Color3(1, 1, 1);
 
-            // }
+            }
 
             // const loop = (i: number) => {
 
@@ -193,88 +183,12 @@ export class Collisions {
 
             // loop(0);
 
-            box.rotation.z += 0.01;
-
-            const mesh: Mesh = this.meshes[0],
-                position: BABYLON.Vector3 = mesh.content.position,
-                material: BABYLON.StandardMaterial = box.material as BABYLON.StandardMaterial;
-
-            if (Math.abs(position.x) < 20 && Math.abs(position.y) < 20 && Math.abs(position.z) < 20) {
-
-                mesh.content.position = position.add(mesh.direction);
-
-                if (mesh.content.intersectsMesh(box, true) && this._isStart) {
-
-                    material.diffuseColor = new BABYLON.Color3(1, 0, 0);
-
-                    this._isOver = true;
-
-                }
-
-            } else {
-
-                mesh.direction = this._lastDir.subtract(position).multiply(new BABYLON.Vector3(Math.random(), Math.random(), Math.random())).normalize();
-
-                mesh.content.position = position.add(mesh.direction);
-
-                if (this._isStart) this._score += 1;
-
-            }
-
             this.scene.render();
-
-            this._isOver && alert('your score: ' + this._score);
 
         });
 
         window.addEventListener('resize', () => {
             this.engine.resize();
-        });
-
-        window.addEventListener('keydown', (event: KeyboardEvent) => {
-
-            switch (event.key) {
-
-                case "Enter":
-
-                    if (!this._isStart) this._isStart = true;
-
-                    break;
-
-                case "w":
-
-                    this._lastDir = box.position.clone();
-                    box.position.y += 0.1;
-
-                    break;
-
-                case "s":
-                    
-                    this._lastDir = box.position.clone();
-                    box.position.y -= 0.1;
-
-                    break;
-
-                case "a":
-
-                    this._lastDir = box.position.clone();
-                    box.position.x -= 0.1;
-
-                    break;
-
-                case "d":
-
-                    this._lastDir = box.position.clone();
-                    box.position.x += 0.1;
-
-                    break;
-
-                default:
-
-                    break;
-
-            }
-
         });
 
     }
