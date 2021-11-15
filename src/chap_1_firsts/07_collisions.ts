@@ -1,10 +1,10 @@
-interface Size {
+export interface Size {
     height: number;
     width: number;
     depth: number;
 }
 
-interface Mesh {
+export interface Mesh {
     content: BABYLON.Mesh;
     size: Size;
     direction: BABYLON.Vector3;
@@ -29,15 +29,6 @@ export class Collisions {
     private _time: number = 0;
     /** 精度 */
     private _precision: number = 0.01;
-    /** 上次位置 */
-    private _lastPosition: BABYLON.Vector3;
-    /** 分数 */
-    private _score: number = 0;
-    /** 是否结束 */
-    private _isOver: boolean = false;
-    /** 是否开始 */
-    private _isStart: boolean = false;
-
 
     /**
      * 构造函数
@@ -111,8 +102,6 @@ export class Collisions {
         let alpha = Math.PI;
 
         this.engine.runRenderLoop(() => {
-
-            if (this._isOver) return;
 
             // this._time = this._time === 0 ? new Date().getTime() : this._time;
 

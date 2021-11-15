@@ -1,14 +1,4 @@
-interface Size {
-    height: number;
-    width: number;
-    depth: number;
-}
-
-interface Mesh {
-    content: BABYLON.Mesh;
-    size: Size;
-    direction: BABYLON.Vector3;
-}
+import { Mesh } from "./07_collisions";
 
 export class SkullGame {
 
@@ -20,7 +10,6 @@ export class SkullGame {
     public camera: BABYLON.ArcRotateCamera;
     /** 物体集合 */
     public meshes: Array<Mesh> = [];
-
 
     /** 上次位置 */
     private _lastPosition: BABYLON.Vector3;
