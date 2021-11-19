@@ -11,6 +11,8 @@ export class SkullGame {
     /** 物体集合 */
     public meshes: Array<Mesh> = [];
 
+    /** 骷髅 */
+    private _skull: BABYLON.AbstractMesh;
     /** 上次位置 */
     private _lastPosition: BABYLON.Vector3;
     /** 分数 */
@@ -19,7 +21,8 @@ export class SkullGame {
     private _isOver: boolean = false;
     /** 是否开始 */
     private _isStart: boolean = false;
-
+    /** 小球是否移动 */
+    private _isSphereMove: boolean = true;
 
     /**
      * 构造函数
@@ -28,7 +31,71 @@ export class SkullGame {
         this._init();
     }
 
-  
+    /**
+     * 键盘落下监听
+     * @param event 
+     */
+    private _keyDown = (event: KeyboardEvent) => {
+
+        const skull = this._skull;
+
+        switch (event.key) {
+
+            case "Enter":
+
+                if (!this._isStart) this._isStart = true;
+
+                break;
+
+            case "w":
+
+                this._lastPosition = skull.position.clone();
+                skull.position.z += 0.5;
+
+                break;
+
+            case "s":
+
+                this._lastPosition = skull.position.clone();
+                skull.position.z -= 0.5;
+
+                break;
+
+            case "a":
+
+                this._lastPosition = skull.position.clone();
+                skull.position.x -= 0.5;
+
+                break;
+
+            case "d":
+
+                this._lastPosition = skull.position.clone();
+                skull.position.x += 0.5;
+
+                break;
+            case "q":
+
+                this._lastPosition = skull.position.clone();
+                skull.position.y -= 0.5;
+
+                break;
+
+            case "e":
+
+                this._lastPosition = skull.position.clone();
+                skull.position.y += 0.5;
+
+                break;
+
+            default:
+
+                break;
+
+        }
+
+    }
+
     /**
      * 初始化
      */
@@ -55,6 +122,8 @@ export class SkullGame {
             skull.material = new BABYLON.StandardMaterial("myMaterial", this.scene);
             skull.material.animations = [];
             skull.material.animations.push(animation);
+
+            this._skull = skull;
             this._lastPosition = skull.position.clone();
 
         });
@@ -101,19 +170,31 @@ export class SkullGame {
             const mesh: Mesh = this.meshes[0],
                 position: BABYLON.Vector3 = mesh.content.position;
 
-            if (Math.abs(position.x) < 20 && Math.abs(position.y) < 20 && Math.abs(position.z) < 20) {
+            if (this._isSphereMove) {
 
-                mesh.content.position = position.add(mesh.direction);
+                if (Math.abs(position.x) < 20 && Math.abs(position.y) < 20 && Math.abs(position.z) < 20) {
 
-                if (skull && mesh.content.intersectsMesh(skull, true) && this._isStart) this._isOver = true;
+                    mesh.content.position = position.add(mesh.direction);
 
-            } else {
+                    if (skull && mesh.content.intersectsMesh(skull, true) && this._isStart) {
 
-                mesh.direction = this._lastPosition.subtract(position).multiply(new BABYLON.Vector3(Math.random(), Math.random(), Math.random())).normalize();
+                        this.scene.beginAnimation(skull, 0, 100, false, 1, () => this._isOver = true);
 
-                mesh.content.position = position.add(mesh.direction);
+                        this._isSphereMove = false;
 
-                if (this._isStart) this._score += 1;
+                        window.removeEventListener('keydown', this._keyDown);
+
+                    }
+
+                } else {
+
+                    mesh.direction = this._lastPosition.subtract(position).multiply(new BABYLON.Vector3(Math.random(), Math.random(), Math.random())).normalize();
+
+                    mesh.content.position = position.add(mesh.direction);
+
+                    if (this._isStart) this._score += 1;
+
+                }
 
             }
 
@@ -127,58 +208,7 @@ export class SkullGame {
             this.engine.resize();
         });
 
-        window.addEventListener('keydown', (event: KeyboardEvent) => {
-
-            switch (event.key) {
-
-                case "Enter":
-
-                    if (!this._isStart) this._isStart = true;
-
-                    break;
-
-                case "w":
-
-                    this._lastPosition = skull.position.clone();
-                    skull.position.y += 0.5;
-
-                    break;
-
-                case "s":
-
-                    this._lastPosition = skull.position.clone();
-                    skull.position.y -= 0.5;
-
-                    break;
-
-                case "a":
-
-                    this._lastPosition = skull.position.clone();
-                    skull.position.x -= 0.5;
-
-                    break;
-
-                case "d":
-
-                    this._lastPosition = skull.position.clone();
-                    skull.position.x += 0.5;
-
-                    break;
-
-                case "f":
-
-
-                    this.scene.beginAnimation(skull, 0, 100, false);
-
-                    break;
-
-                default:
-
-                    break;
-
-            }
-
-        });
+        window.addEventListener('keydown', this._keyDown);
 
     }
 
