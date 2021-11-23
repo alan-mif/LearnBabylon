@@ -1,4 +1,5 @@
 import { HelloWorld } from './chap_1_firsts/01_hello_world';
+import { MeshBuilder } from './chap_1_firsts/02_meshBuilder';
 import { Material } from './chap_1_firsts/03_material';
 import { Animation } from './chap_1_firsts/05_animation';
 import { Sprite } from './chap_1_firsts/06_sprite';
@@ -7,6 +8,7 @@ import { SkullGame } from './chap_1_firsts/07_skullGame';
 import './style.css';
 
 // new HelloWorld();
+// new MeshBuilder();
 // new Material();
 // new Animation();
 // new Sprite();

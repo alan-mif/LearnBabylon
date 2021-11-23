@@ -50,41 +50,41 @@ export class SkullGame {
             case "w":
 
                 this._lastPosition = skull.position.clone();
-                skull.position.z += 0.5;
+                if (skull.position.z < 10) skull.position.z += 0.5;
 
                 break;
 
             case "s":
 
                 this._lastPosition = skull.position.clone();
-                skull.position.z -= 0.5;
+                if (skull.position.z > -10) skull.position.z -= 0.5;
 
                 break;
 
             case "a":
 
                 this._lastPosition = skull.position.clone();
-                skull.position.x -= 0.5;
+                if (skull.position.x > -10) skull.position.x -= 0.5;
 
                 break;
 
             case "d":
 
                 this._lastPosition = skull.position.clone();
-                skull.position.x += 0.5;
+                if (skull.position.x < 10) skull.position.x += 0.5;
 
                 break;
             case "q":
 
                 this._lastPosition = skull.position.clone();
-                skull.position.y -= 0.5;
+                if (skull.position.y > -10) skull.position.y -= 0.5;
 
                 break;
 
             case "e":
 
                 this._lastPosition = skull.position.clone();
-                skull.position.y += 0.5;
+                if (skull.position.y < 10) skull.position.y += 0.5;
 
                 break;
 
@@ -188,7 +188,7 @@ export class SkullGame {
 
                 } else {
 
-                    mesh.direction = this._lastPosition.subtract(position).multiply(new BABYLON.Vector3(Math.random(), Math.random(), Math.random())).normalize();
+                    mesh.direction = this._lastPosition.subtract(position).multiply(new BABYLON.Vector3(Math.random(), Math.random(), Math.random())).normalize().scale((this._score + 1) * 0.1);
 
                     mesh.content.position = position.add(mesh.direction);
 
