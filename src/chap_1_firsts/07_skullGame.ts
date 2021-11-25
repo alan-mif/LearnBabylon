@@ -29,6 +29,7 @@ export class SkullGame {
      */
     public constructor() {
         this._init();
+        this._init2();
     }
 
     /**
@@ -209,6 +210,42 @@ export class SkullGame {
         });
 
         window.addEventListener('keydown', this._keyDown);
+
+    }
+
+    private _init2() {
+
+        const canvas2: HTMLCanvasElement = document.getElementById('canvas2') as HTMLCanvasElement;
+        canvas2.height = 200;
+        canvas2.width = 200;
+
+        const engine = new BABYLON.Engine(canvas2, true),
+            scene = new BABYLON.Scene(engine),
+            camera = new BABYLON.ArcRotateCamera('camera', -Math.PI / 2, Math.PI / 2, 2, new BABYLON.Vector3(0, 0, 0), scene);
+
+        BABYLON.MeshBuilder.CreateLines("axisX", {
+            colors: [new BABYLON.Color4(1, 1, 1, 1), new BABYLON.Color4(1, 0, 0, 1)],
+            points: [new BABYLON.Vector3(0, 0, 0), new BABYLON.Vector3(1, 0, 0)],
+        }, scene);
+
+        BABYLON.MeshBuilder.CreateLines("axisY", {
+            colors: [new BABYLON.Color4(1, 1, 1, 1), new BABYLON.Color4(0, 1, 0, 1)],
+            points: [new BABYLON.Vector3(0, 0, 0), new BABYLON.Vector3(0, 1, 0)]
+        }, scene);
+
+        BABYLON.MeshBuilder.CreateLines("axisZ", {
+            colors: [new BABYLON.Color4(1, 1, 1, 1), new BABYLON.Color4(0, 0, 1, 1)],
+            points: [new BABYLON.Vector3(0, 0, 0), new BABYLON.Vector3(0, 0, 1)]
+        }, scene);
+
+        engine.runRenderLoop(() => {
+
+            camera.alpha = this.camera.alpha;
+            camera.beta = this.camera.beta;
+
+            scene.render();
+
+        });
 
     }
 
