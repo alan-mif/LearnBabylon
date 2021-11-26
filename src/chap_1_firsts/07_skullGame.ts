@@ -113,6 +113,18 @@ export class SkullGame {
         this.camera.attachControl(canvas, true); // 相机绑定控制
         new BABYLON.HemisphericLight('light1', new BABYLON.Vector3(0, 1, 0), this.scene); // 添加半球光用来模拟环境光
 
+        const skyBox = BABYLON.MeshBuilder.CreateBox("skyBox", {
+            size: 2000.0
+        }, this.scene),
+            skyBoxMaterial = new BABYLON.StandardMaterial("skyBox", this.scene);
+            
+        skyBoxMaterial.backFaceCulling = false;
+        skyBoxMaterial.reflectionTexture = new BABYLON.CubeTexture("https://www.babylonjs-playground.com/textures/TropicalSunnyDay", this.scene);
+        skyBoxMaterial.reflectionTexture.coordinatesMode = BABYLON.Texture.SKYBOX_MODE;
+        skyBoxMaterial.diffuseColor = new BABYLON.Color3(0, 0, 0);
+        skyBoxMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
+        skyBox.material = skyBoxMaterial
+
         let skull: BABYLON.AbstractMesh;
 
         BABYLON.SceneLoader.ImportMesh('', './model/', 'skull.babylon', this.scene, scene => {
