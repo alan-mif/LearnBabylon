@@ -22,7 +22,7 @@ export class SkullGame {
     /** 是否开始 */
     private _isStart: boolean = false;
     /** 小球是否移动 */
-    private _isSphereMove: boolean = true;
+    private _isSphereMove: boolean = false;
 
     /**
      * 构造函数
@@ -44,7 +44,8 @@ export class SkullGame {
 
             case "Enter":
 
-                if (!this._isStart) this._isStart = true;
+                if (!this._isStart) this._isSphereMove = this._isStart = true;
+
 
                 break;
 
@@ -123,7 +124,7 @@ export class SkullGame {
         skyBoxMaterial.reflectionTexture.coordinatesMode = BABYLON.Texture.SKYBOX_MODE;
         skyBoxMaterial.diffuseColor = new BABYLON.Color3(0, 0, 0);
         skyBoxMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
-        skyBox.material = skyBoxMaterial
+        skyBox.material = skyBoxMaterial;
 
         let skull: BABYLON.AbstractMesh;
 
