@@ -69,3 +69,5 @@ shapeMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
 shape.material = shapeMaterial;
 ```
 
+![](images/skybox2.png)
+
