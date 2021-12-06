@@ -134,7 +134,7 @@ export class SkullGame {
             skull = scenes[0];
             skull.scaling = skull.scaling.scale(0.05);
             skull.position = new BABYLON.Vector3();
-            skull.material = new BABYLON.StandardMaterial("myMaterial", this.scene);
+            skull.material = new BABYLON.StandardMaterial("myMaterial", scene);
             skull.material.animations = [];
             skull.material.animations.push(animation);
 
