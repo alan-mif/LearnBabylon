@@ -12,7 +12,7 @@
 
 
 
-![cubemaps_skybox](../../../Users/SKONG/Desktop/cubemaps_skybox.png)
+![cubemaps_skybox](images/cubemaps_skybox.png)
 
 
 
