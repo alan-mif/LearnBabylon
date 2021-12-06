@@ -46,7 +46,6 @@ export class SkullGame {
 
                 if (!this._isStart) this._isSphereMove = this._isStart = true;
 
-
                 break;
 
             case "w":
@@ -111,16 +110,18 @@ export class SkullGame {
         this.scene = new BABYLON.Scene(this.engine);
         this.camera = new BABYLON.ArcRotateCamera('camera', -Math.PI / 2, Math.PI / 2, 2, new BABYLON.Vector3(0, 0, 0), this.scene);
 
-        this.camera.attachControl(canvas, true); // 相机绑定控制
-        new BABYLON.HemisphericLight('light1', new BABYLON.Vector3(0, 1, 0), this.scene); // 添加半球光用来模拟环境光
+        const { engine, scene, camera } = this;
+
+        camera.attachControl(canvas, true); // 相机绑定控制
+        new BABYLON.HemisphericLight('light1', new BABYLON.Vector3(0, 1, 0), scene); // 添加半球光用来模拟环境光
 
         const skyBox = BABYLON.MeshBuilder.CreateBox("skyBox", {
             size: 2000.0
-        }, this.scene),
-            skyBoxMaterial = new BABYLON.StandardMaterial("skyBox", this.scene);
-            
+        }, scene),
+            skyBoxMaterial = new BABYLON.StandardMaterial("skyBox", scene);
+
         skyBoxMaterial.backFaceCulling = false;
-        skyBoxMaterial.reflectionTexture = new BABYLON.CubeTexture("https://www.babylonjs-playground.com/textures/TropicalSunnyDay", this.scene);
+        skyBoxMaterial.reflectionTexture = new BABYLON.CubeTexture("./textures/cube/box", scene);
         skyBoxMaterial.reflectionTexture.coordinatesMode = BABYLON.Texture.SKYBOX_MODE;
         skyBoxMaterial.diffuseColor = new BABYLON.Color3(0, 0, 0);
         skyBoxMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
@@ -128,9 +129,9 @@ export class SkullGame {
 
         let skull: BABYLON.AbstractMesh;
 
-        BABYLON.SceneLoader.ImportMesh('', './model/', 'skull.babylon', this.scene, scene => {
+        BABYLON.SceneLoader.ImportMesh('', './model/', 'skull.babylon', scene, (scenes: BABYLON.AbstractMesh[]) => {
 
-            skull = scene[0];
+            skull = scenes[0];
             skull.scaling = skull.scaling.scale(0.05);
             skull.position = new BABYLON.Vector3();
             skull.material = new BABYLON.StandardMaterial("myMaterial", this.scene);
@@ -168,7 +169,7 @@ export class SkullGame {
 
         animation.setKeys(keys);
 
-        const sphere: BABYLON.Mesh = BABYLON.MeshBuilder.CreateSphere('sphere', { diameter: 0.5 }, this.scene);
+        const sphere: BABYLON.Mesh = BABYLON.MeshBuilder.CreateSphere('sphere', { diameter: 0.5 }, scene);
         sphere.position.x = 10;
 
         this.meshes.push({
@@ -177,7 +178,7 @@ export class SkullGame {
             direction: new BABYLON.Vector3(Math.random(), Math.random(), Math.random())
         });
 
-        this.engine.runRenderLoop(() => {
+        engine.runRenderLoop(() => {
 
             if (this._isOver) return;
 
@@ -212,15 +213,13 @@ export class SkullGame {
 
             }
 
-            this.scene.render();
+            scene.render();
 
             this._isOver && alert('your score: ' + this._score);
 
         });
 
-        window.addEventListener('resize', () => {
-            this.engine.resize();
-        });
+        window.addEventListener('resize', () => engine.resize());
 
         window.addEventListener('keydown', this._keyDown);
 
