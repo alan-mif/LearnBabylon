@@ -1,27 +1,7 @@
-export interface Size {
-    height: number;
-    width: number;
-    depth: number;
-}
+import { Mesh, Base } from "./base";
 
-export interface Mesh {
-    content: BABYLON.Mesh;
-    size: Size;
-    direction: BABYLON.Vector3;
-}
+export class Collisions extends Base {
 
-export class Collisions {
-
-    /** 引擎 */
-    public engine: BABYLON.Engine;
-    /** 场景 */
-    public scene: BABYLON.Scene;
-    /** 相机 */
-    public camera: BABYLON.ArcRotateCamera;
-    /** 物体集合 */
-    public meshes: Array<Mesh> = [];
-    /** 地板 */
-    public ground: BABYLON.Mesh;
     /** 重力 */
     public gravity: BABYLON.Vector3;
 
@@ -34,7 +14,11 @@ export class Collisions {
      * 构造函数
      */
     public constructor() {
+
+        super();
+
         this._init();
+
     }
 
     /**
@@ -50,7 +34,7 @@ export class Collisions {
     /**
      * 初始化
      */
-    private _init() {
+    protected _init() {
 
         const canvas: HTMLCanvasElement = document.querySelector('canvas.webgl');
         canvas.height = window.innerHeight;

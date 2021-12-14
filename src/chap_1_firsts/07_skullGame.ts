@@ -1,15 +1,6 @@
-import { Mesh } from "./07_collisions";
+import { Mesh, Base } from "./base";
 
-export class SkullGame {
-
-    /** 引擎 */
-    public engine: BABYLON.Engine;
-    /** 场景 */
-    public scene: BABYLON.Scene;
-    /** 相机 */
-    public camera: BABYLON.ArcRotateCamera;
-    /** 物体集合 */
-    public meshes: Array<Mesh> = [];
+export class SkullGame extends Base {
 
     /** 骷髅 */
     private _skull: BABYLON.AbstractMesh;
@@ -28,8 +19,12 @@ export class SkullGame {
      * 构造函数
      */
     public constructor() {
+
+        super();
+
         this._init();
         this._init2();
+
     }
 
     /**
@@ -100,17 +95,11 @@ export class SkullGame {
     /**
      * 初始化
      */
-    private _init() {
+    protected _init() {
 
-        const canvas: HTMLCanvasElement = document.querySelector('canvas.webgl');
-        canvas.height = window.innerHeight;
-        canvas.width = window.innerWidth;
+        super._init();
 
-        this.engine = new BABYLON.Engine(canvas, true);
-        this.scene = new BABYLON.Scene(this.engine);
-        this.camera = new BABYLON.ArcRotateCamera('camera', -Math.PI / 2, Math.PI / 2, 2, new BABYLON.Vector3(0, 0, 0), this.scene);
-
-        const { engine, scene, camera } = this;
+        const { engine, scene, camera, canvas } = this;
 
         camera.attachControl(canvas, true); // 相机绑定控制
         new BABYLON.HemisphericLight('light1', new BABYLON.Vector3(0, 1, 0), scene); // 添加半球光用来模拟环境光

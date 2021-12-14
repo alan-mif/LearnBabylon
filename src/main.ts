@@ -6,6 +6,7 @@ import { Sprite } from './chap_1_firsts/06_sprite';
 import { Collisions } from './chap_1_firsts/07_collisions';
 import { SkullGame } from './chap_1_firsts/07_skullGame';
 import { SkyBox } from './chap_1_firsts/08_skyBox';
+import { Particle } from './chap_1_firsts/09_particle';
 import './style.css';
 
 // new HelloWorld();
@@ -15,4 +16,5 @@ import './style.css';
 // new Sprite();
 // new Collisions();
 // new SkullGame();
-new SkyBox();
+// new SkyBox();
+new Particle();
