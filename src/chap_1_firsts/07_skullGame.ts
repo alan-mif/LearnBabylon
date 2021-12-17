@@ -99,10 +99,7 @@ export class SkullGame extends Base {
 
         super._init();
 
-        const { engine, scene, camera, canvas } = this;
-
-        camera.attachControl(canvas, true); // 相机绑定控制
-        new BABYLON.HemisphericLight('light1', new BABYLON.Vector3(0, 1, 0), scene); // 添加半球光用来模拟环境光
+        const { engine, scene } = this;
 
         const skyBox = BABYLON.MeshBuilder.CreateBox("skyBox", {
             size: 2000.0
@@ -207,8 +204,6 @@ export class SkullGame extends Base {
             this._isOver && alert('your score: ' + this._score);
 
         });
-
-        window.addEventListener('resize', () => engine.resize());
 
         window.addEventListener('keydown', this._keyDown);
 

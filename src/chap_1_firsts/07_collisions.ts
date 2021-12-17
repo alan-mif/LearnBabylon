@@ -44,9 +44,6 @@ export class Collisions extends Base {
         this.scene = new BABYLON.Scene(this.engine);
         this.camera = new BABYLON.ArcRotateCamera('camera', -Math.PI / 2, Math.PI / 2, 2, new BABYLON.Vector3(0, 0, 0), this.scene);
 
-        this.camera.attachControl(canvas, true); // 相机绑定控制
-        new BABYLON.HemisphericLight('light1', new BABYLON.Vector3(0, 1, 0), this.scene); // 添加半球光用来模拟环境光
-
         // // 创建 box 并给定高度
         // const box: BABYLON.Mesh = BABYLON.MeshBuilder.CreateBox('box', { height: 1, width: 1, depth: 1 }, this.scene);
         // box.position.y = 40;

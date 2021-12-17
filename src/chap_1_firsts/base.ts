@@ -29,7 +29,10 @@ export class Base {
      * 构造函数
      */
     public constructor() {
+
         this._init();
+        this._listen();
+
     }
 
     /**
@@ -46,6 +49,20 @@ export class Base {
         this.camera = new BABYLON.ArcRotateCamera('camera', -Math.PI / 2, Math.PI / 2, 2, new BABYLON.Vector3(0, 0, 0), this.scene);
         this.ground = BABYLON.MeshBuilder.CreateGround("myGround", { width: 60, height: 60, subdivisions: 4 }, this.scene);
 
+        const groundMaterial = new BABYLON.StandardMaterial("material", this.scene);
+        groundMaterial.diffuseColor = new BABYLON.Color3(0, 0, 0);
+        this.ground.material = groundMaterial;
+
+        this.camera.attachControl(this.canvas, true); // 相机绑定控制
+        new BABYLON.HemisphericLight('light1', new BABYLON.Vector3(0, 1, 0), this.scene); // 添加半球光用来模拟环境光
+
     }
-    
+
+    /**
+     * 事件监听
+     */
+    protected _listen() {
+        window.addEventListener('resize', () => this.engine.resize());
+    }
+
 }

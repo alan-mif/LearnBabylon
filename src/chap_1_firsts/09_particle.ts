@@ -14,14 +14,7 @@ export class Particle extends Base {
 
         super._init();
 
-        const groundMaterial = new BABYLON.StandardMaterial("material", this.scene);
-        groundMaterial.diffuseColor = new BABYLON.Color3(0, 0, 0);
-        this.ground.material = groundMaterial;
-
-        const { engine, scene, camera, canvas } = this;
-
-        camera.attachControl(canvas, true); // 相机绑定控制
-        new BABYLON.HemisphericLight('light1', new BABYLON.Vector3(0, 1, 0), scene); // 添加半球光用来模拟环境光
+        const { engine, scene } = this;
 
         // 创建发射器和粒子系统
         const emitter = BABYLON.MeshBuilder.CreateBox("", {}, scene),
@@ -29,7 +22,7 @@ export class Particle extends Base {
 
         emitter.position.y = 1;
         particleSystem.particleTexture = new BABYLON.Texture("./textures/flare.png", scene); // 粒子贴图
-        // particleSystem.emitter = emitter; // 设置粒子发射器
+        particleSystem.emitter = emitter; // 设置粒子发射器
         particleSystem.color1 = new BABYLON.Color4(0.7, 0.8, 1.0, 1.0);
         particleSystem.color2 = new BABYLON.Color4(0.2, 0.5, 1.0, 1.0);
         particleSystem.colorDead = new BABYLON.Color4(0, 0, 0.0, 0.0); // 粒子在其生命周期结束时的颜色  
@@ -50,10 +43,6 @@ export class Particle extends Base {
 
         engine.runRenderLoop(() => {
             scene.render();
-        });
-
-        window.addEventListener('resize', () => {
-            engine.resize();
         });
 
     }
