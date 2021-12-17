@@ -6,8 +6,6 @@ export class Particle extends Base {
 
         super();
 
-        this._init();
-
     }
 
     protected _init() {

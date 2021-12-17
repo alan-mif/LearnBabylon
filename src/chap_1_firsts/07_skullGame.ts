@@ -22,7 +22,6 @@ export class SkullGame extends Base {
 
         super();
 
-        this._init();
         this._init2();
 
     }

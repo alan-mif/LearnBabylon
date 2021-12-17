@@ -16,9 +16,7 @@ export class Collisions extends Base {
     public constructor() {
 
         super();
-
-        this._init();
-
+        
     }
 
     /**
