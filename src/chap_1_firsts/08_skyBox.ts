@@ -4,7 +4,7 @@ export class SkyBox {
         this._init();
     }
 
-    private _init() {
+    private _init(): void {
 
         const canvas: HTMLCanvasElement = document.querySelector('canvas.webgl');
         canvas.height = window.innerHeight;
@@ -31,7 +31,7 @@ export class SkyBox {
 
         const shape = BABYLON.MeshBuilder.CreateBox("shape", {}, scene),
             shapeMaterial = new BABYLON.StandardMaterial("mat", scene);
-            
+
         shapeMaterial.reflectionTexture = new BABYLON.CubeTexture("./textures/cube/box", scene);
         shapeMaterial.diffuseColor = new BABYLON.Color3(0, 0, 0);
         shapeMaterial.specularColor = new BABYLON.Color3(0, 0, 0);

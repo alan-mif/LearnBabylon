@@ -30,7 +30,7 @@ export class SkullGame extends Base {
      * 键盘落下监听
      * @param event 
      */
-    private _keyDown = (event: KeyboardEvent) => {
+    private _keyDown = (event: KeyboardEvent): void => {
 
         const skull = this._skull;
 
@@ -94,7 +94,7 @@ export class SkullGame extends Base {
     /**
      * 初始化
      */
-    protected _init() {
+    protected _init(): void {
 
         super._init();
 
@@ -208,7 +208,7 @@ export class SkullGame extends Base {
 
     }
 
-    private _init2() {
+    private _init2(): void {
 
         const canvas2: HTMLCanvasElement = document.getElementById('canvas2') as HTMLCanvasElement;
         canvas2.height = 200;

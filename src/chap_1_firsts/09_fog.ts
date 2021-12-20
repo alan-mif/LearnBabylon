@@ -8,7 +8,7 @@ export class Fog extends Base {
 
     }
 
-    protected _init() {
+    protected _init(): void {
 
         super._init();
 
@@ -16,8 +16,8 @@ export class Fog extends Base {
 
         const particleSystem: BABYLON.ParticleSystem = new BABYLON.ParticleSystem("particles", 2500, scene);
         particleSystem.manualEmitCount = particleSystem.getCapacity();
-        particleSystem.minEmitBox = new BABYLON.Vector3(-25, 12, -25); 
-        particleSystem.maxEmitBox = new BABYLON.Vector3(25, 1, 25); 
+        particleSystem.minEmitBox = new BABYLON.Vector3(-25, 12, -25);
+        particleSystem.maxEmitBox = new BABYLON.Vector3(25, 1, 25);
 
         // const particleSystem: BABYLON.GPUParticleSystem = new BABYLON.GPUParticleSystem("particles", { capacity: 20000 }, scene);
         // particleSystem.activeParticleCount = 5000;

@@ -4,7 +4,7 @@ export class HelloWorld {
     this._init();
   }
 
-  private _init() {
+  private _init(): void {
 
     const canvas: HTMLCanvasElement = document.querySelector('canvas.webgl');
     canvas.height = window.innerHeight;

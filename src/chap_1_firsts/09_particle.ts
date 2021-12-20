@@ -8,7 +8,7 @@ export class Particle extends Base {
 
     }
 
-    protected _init() {
+    protected _init(): void {
 
         super._init();
 

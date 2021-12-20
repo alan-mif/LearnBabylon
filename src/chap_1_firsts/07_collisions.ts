@@ -16,7 +16,7 @@ export class Collisions extends Base {
     public constructor() {
 
         super();
-        
+
     }
 
     /**
@@ -25,14 +25,14 @@ export class Collisions extends Base {
      * @param mesh2 
      * @returns 
      */
-    private _intersectsMeshByG(mesh: Mesh, mesh2: Mesh) {
+    private _intersectsMeshByG(mesh: Mesh, mesh2: Mesh): boolean {
         return mesh.content.position.y - mesh.size.height / 2 < mesh2.content.position.y + mesh2.size.height / 2 ? true : false;
     }
 
     /**
      * 初始化
      */
-    protected _init() {
+    protected _init(): void {
 
         const canvas: HTMLCanvasElement = document.querySelector('canvas.webgl');
         canvas.height = window.innerHeight;

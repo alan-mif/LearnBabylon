@@ -38,7 +38,7 @@ export class Base {
     /**
      * 初始化
      */
-    protected _init() {
+    protected _init(): void {
 
         this.canvas = document.querySelector('canvas.webgl');
         this.canvas.height = window.innerHeight;
@@ -61,7 +61,7 @@ export class Base {
     /**
      * 事件监听
      */
-    protected _listen() {
+    protected _listen(): void {
         window.addEventListener('resize', () => this.engine.resize());
     }
 

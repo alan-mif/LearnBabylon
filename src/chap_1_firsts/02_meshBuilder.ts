@@ -6,7 +6,7 @@ export class MeshBuilder {
 
     }
 
-    private _init() {
+    private _init(): void {
 
         const canvas: HTMLCanvasElement = document.querySelector('canvas.webgl');
         canvas.height = window.innerHeight;
@@ -43,5 +43,5 @@ export class MeshBuilder {
         });
 
     }
-    
+
 }
