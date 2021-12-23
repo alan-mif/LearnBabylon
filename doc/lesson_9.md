@@ -39,3 +39,41 @@
         particleSystem.start(); // 启动粒子系统
 ```
 
+**e.g.2 利用粒子模拟体积雾效果**
+
+上面的例子我们使用的是 CPU 粒子，当我们的粒子数量到了一定的量级的时候，继续使用 CPU 粒子，设备性能可能不足以保障程序的流畅运行。这个时候我们可以使用 GPU 粒子，它是 babylon 利用 webgl2 的新特性制作出来的（未特殊说明的，皆是使用的webgl1），也就是说我们需要先检测一下浏览器是否支持 GPU 粒子。
+
+```typescript
+        let particleSystem: BABYLON.GPUParticleSystem | BABYLON.ParticleSystem; 
+
+        if (BABYLON.GPUParticleSystem.IsSupported) { // 判断是否支持 GPU 粒子
+            particleSystem = new BABYLON.GPUParticleSystem("particles", { capacity: 20000 }, scene);
+            particleSystem.activeParticleCount = 5000;
+            particleSystem.manualEmitCount = particleSystem.activeParticleCount;
+            particleSystem.minEmitBox = new BABYLON.Vector3(-25, 12, -25);
+            particleSystem.maxEmitBox = new BABYLON.Vector3(25, 1, 25);
+        } else {
+            particleSystem = new BABYLON.ParticleSystem("particles", 2500, scene);
+            particleSystem.manualEmitCount = particleSystem.getCapacity();
+            particleSystem.minEmitBox = new BABYLON.Vector3(-25, 12, -25);
+            particleSystem.maxEmitBox = new BABYLON.Vector3(25, 1, 25);
+        }
+
+        particleSystem.particleTexture = new BABYLON.Texture("./textures/smoke_15.png", scene);
+        particleSystem.color1 = new BABYLON.Color4(0.8, 0.8, 0.8, 0.1);
+        particleSystem.color2 = new BABYLON.Color4(.95, .95, .95, 0.35);
+        particleSystem.colorDead = new BABYLON.Color4(0.9, 0.9, 0.9, 0.1);
+        particleSystem.minSize = 3.5;
+        particleSystem.maxSize = 5.0;
+        particleSystem.minLifeTime = Number.MAX_SAFE_INTEGER;
+        particleSystem.emitRate = 10000;
+        particleSystem.blendMode = BABYLON.ParticleSystem.BLENDMODE_STANDARD;
+        particleSystem.direction1 = new BABYLON.Vector3(0, 0, 0);
+        particleSystem.direction2 = new BABYLON.Vector3(0, 0, 0);
+        particleSystem.minAngularSpeed = -1; // 发射粒子的最小角速度(每个粒子的z轴旋转)。  
+        particleSystem.maxAngularSpeed = 1; // 发射粒子的最大角速度(每个粒子的z轴旋转)。  
+        particleSystem.updateSpeed = 0.01;
+
+        particleSystem.start();
+```
+
