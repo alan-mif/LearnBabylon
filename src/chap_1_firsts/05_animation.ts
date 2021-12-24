@@ -88,11 +88,11 @@ export class Animation {
 
         const animatable = scene.beginAnimation(box, 0, 100, true);
         // animatable.pause();
-        engine.runRenderLoop(() => {
+        engine.runRenderLoop((): void => {
             scene.render();
         });
 
-        window.addEventListener('resize', () => {
+        window.addEventListener('resize', (): void => {
             engine.resize();
         });
 

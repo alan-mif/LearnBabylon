@@ -8,6 +8,7 @@ import { SkullGame } from './chap_1_firsts/07_skullGame';
 import { SkyBox } from './chap_1_firsts/08_skyBox';
 import { Particle } from './chap_1_firsts/09_particle';
 import { Fog } from './chap_1_firsts/09_fog';
+import { RainAndSnow } from './chap_1_firsts/09_rainAndSnow';
 import './style.css';
 
 // new HelloWorld();
@@ -19,4 +20,5 @@ import './style.css';
 // new SkullGame();
 // new SkyBox();
 // new Particle();
-new Fog();
+// new Fog();
+new RainAndSnow()

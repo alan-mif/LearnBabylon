@@ -37,7 +37,7 @@ export class SkyBox {
         shapeMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
         shape.material = shapeMaterial;
 
-        engine.runRenderLoop(() => scene.render());
+        engine.runRenderLoop((): void => scene.render());
 
     }
 

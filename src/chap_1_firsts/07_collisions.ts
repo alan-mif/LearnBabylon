@@ -155,7 +155,7 @@ export class Collisions extends Base {
 
         });
 
-        window.addEventListener('resize', () => {
+        window.addEventListener('resize', (): void => {
             this.engine.resize();
         });
 

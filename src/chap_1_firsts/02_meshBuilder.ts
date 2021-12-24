@@ -34,11 +34,11 @@ export class MeshBuilder {
         //创建一个线条
         const lines = BABYLON.MeshBuilder.CreateLines("lines", { points: myPoints, colors: colors }, scene);
         console.log(box, ground, lines);
-        engine.runRenderLoop(() => {
+        engine.runRenderLoop((): void => {
             scene.render();
         });
 
-        window.addEventListener('resize', () => {
+        window.addEventListener('resize', (): void => {
             engine.resize();
         });
 

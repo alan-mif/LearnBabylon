@@ -62,7 +62,7 @@ export class Base {
      * 事件监听
      */
     protected _listen(): void {
-        window.addEventListener('resize', () => this.engine.resize());
+        window.addEventListener('resize', (): void => this.engine.resize());
     }
 
 }

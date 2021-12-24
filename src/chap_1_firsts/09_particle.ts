@@ -3,9 +3,7 @@ import { Base } from "./base";
 export class Particle extends Base {
 
     public constructor() {
-
         super();
-
     }
 
     protected _init(): void {

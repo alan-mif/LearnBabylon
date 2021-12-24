@@ -27,11 +27,11 @@ export class Sprite {
         const box = BABYLON.MeshBuilder.CreateBox('box', { height: 1, width: 1, depth: 1 }, scene); // 为了和对比精灵
         box.position.y = -1; // 调整盒子坐标，避免挡住精灵图
 
-        engine.runRenderLoop(() => {
+        engine.runRenderLoop((): void => {
             scene.render();
         });
 
-        window.addEventListener('resize', () => {
+        window.addEventListener('resize', (): void => {
             engine.resize();
         });
 

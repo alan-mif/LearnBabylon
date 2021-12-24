@@ -233,7 +233,7 @@ export class SkullGame extends Base {
             points: [new BABYLON.Vector3(0, 0, 0), new BABYLON.Vector3(0, 0, 1)]
         }, scene);
 
-        engine.runRenderLoop(() => {
+        engine.runRenderLoop((): void => {
 
             camera.alpha = this.camera.alpha;
             camera.beta = this.camera.beta;

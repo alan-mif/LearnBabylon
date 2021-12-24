@@ -25,11 +25,11 @@ export class Material {
         myMaterial.diffuseTexture = new BABYLON.Texture("./textures/crate.png", scene);
         mesh.material = myMaterial;// mesh是之前创建的物体
 
-        engine.runRenderLoop(() => {
+        engine.runRenderLoop((): void => {
             scene.render();
         });
 
-        window.addEventListener('resize', () => {
+        window.addEventListener('resize', (): void => {
             engine.resize();
         });
 

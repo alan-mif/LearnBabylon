@@ -1,5 +1,5 @@
 export class HelloWorld {
-  
+
   public constructor() {
     this._init();
   }
@@ -19,11 +19,11 @@ export class HelloWorld {
 
     BABYLON.MeshBuilder.CreateBox('box', {}, scene); // 参数1 mesh name，参数2 box 的一些参数，这里传入空对象，让其使用默认值，参数3传入 scene
 
-    engine.runRenderLoop(() => {
+    engine.runRenderLoop((): void => {
       scene.render();
     });
 
-    window.addEventListener('resize', () => {
+    window.addEventListener('resize', (): void => {
       engine.resize();
     });
 
