@@ -37,7 +37,7 @@ export class Particle extends Base {
 
         particleSystem.start(); // 启动粒子系统
 
-        engine.runRenderLoop(() => {
+        engine.runRenderLoop((): void => {
             scene.render();
         });
 

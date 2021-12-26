@@ -12,11 +12,10 @@ export class Fog extends Base {
 
         const { engine, scene } = this;
 
-        let particleSystem: BABYLON.GPUParticleSystem | BABYLON.ParticleSystem; 
+        let particleSystem: BABYLON.GPUParticleSystem | BABYLON.ParticleSystem;
 
         if (BABYLON.GPUParticleSystem.IsSupported) { // 判断是否支持 GPU 粒子
-            particleSystem = new BABYLON.GPUParticleSystem("particles", { capacity: 20000 }, scene);
-            particleSystem.activeParticleCount = 5000;
+            particleSystem = new BABYLON.GPUParticleSystem("particles", { capacity: 10000 }, scene);
             particleSystem.manualEmitCount = particleSystem.activeParticleCount;
             particleSystem.minEmitBox = new BABYLON.Vector3(-25, 12, -25);
             particleSystem.maxEmitBox = new BABYLON.Vector3(25, 1, 25);
@@ -44,9 +43,9 @@ export class Fog extends Base {
 
         particleSystem.start();
 
-        engine.runRenderLoop(() => {
-            scene.render();
-        });
+        BABYLON.MeshBuilder.CreateBox('box', { height: 5, width: 5, depth: 5 }, scene);
+
+        engine.runRenderLoop((): void => scene.render());
 
     }
 

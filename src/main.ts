@@ -20,5 +20,5 @@ import './style.css';
 // new SkullGame();
 // new SkyBox();
 // new Particle();
-// new Fog();
-new RainAndSnow()
+new Fog();
+// new RainAndSnow()
