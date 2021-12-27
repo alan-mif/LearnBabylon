@@ -10,6 +10,12 @@ export interface Mesh {
     direction: BABYLON.Vector3;
 }
 
+export interface Sprite {
+    content: BABYLON.Sprite;
+    direction: BABYLON.Vector3;
+    time: number;
+}
+
 export class Base {
 
     /** 画布 */
@@ -22,8 +28,15 @@ export class Base {
     public camera: BABYLON.ArcRotateCamera;
     /** 物体集合 */
     public meshes: Array<Mesh> = [];
+    /** 精灵集合 */
+    public sprites: Array<Sprite> = [];
     /** 地板 */
     public ground: BABYLON.Mesh;
+    
+    /** 当前时间 */
+    protected _currentTime: number = new Date().getTime();
+    /** 开始时间 */
+    protected _startTime: number = new Date().getTime();
 
     /**
      * 构造函数
@@ -47,7 +60,7 @@ export class Base {
         this.engine = new BABYLON.Engine(this.canvas, true);
         this.scene = new BABYLON.Scene(this.engine);
         this.camera = new BABYLON.ArcRotateCamera('camera', -Math.PI / 2, Math.PI / 2, 2, new BABYLON.Vector3(0, 0, 0), this.scene);
-        this.ground = BABYLON.MeshBuilder.CreateGround("myGround", { width: 60, height: 60, subdivisions: 4 }, this.scene);
+        this.ground = BABYLON.MeshBuilder.CreateGround("myGround", { width: 50, height: 50, subdivisions: 4 }, this.scene);
 
         const groundMaterial = new BABYLON.StandardMaterial("material", this.scene);
         groundMaterial.diffuseColor = new BABYLON.Color3(0, 0, 0);
