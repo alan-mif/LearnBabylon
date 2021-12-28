@@ -14,6 +14,8 @@ export interface Sprite {
     content: BABYLON.Sprite;
     direction: BABYLON.Vector3;
     time: number;
+    velocity: number;
+    isStop: boolean;
 }
 
 export class Base {
@@ -32,7 +34,7 @@ export class Base {
     public sprites: Array<Sprite> = [];
     /** 地板 */
     public ground: BABYLON.Mesh;
-    
+
     /** 当前时间 */
     protected _currentTime: number = new Date().getTime();
     /** 开始时间 */

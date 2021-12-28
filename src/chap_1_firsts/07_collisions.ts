@@ -88,7 +88,7 @@ export class Collisions extends Base {
             //     totalTime: number = time - this._time,
             //     distance: number = 1 / 2 * this.gravity.y * Math.pow(totalTime / 1000, 2);
 
-            // box.position.y += distance / 10; // 将物体下落的距离应用到该物体上,为了我们能够更加方便的观察物体下落过程，把它的速度变慢一些，当然这在实际应用中是不必要的。
+            // box.position.y = 40 - distance; 
             // if (box.position.y < 1 / 2) box.position.y = 1 / 2;
 
             // for (let i = this._precision; i < -distance && !this._intersectsMeshByG(this.meshes[0], this.meshes[1]); i += this._precision) box.position.y -= this._precision;
