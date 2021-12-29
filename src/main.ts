@@ -21,4 +21,5 @@ import './style.css';
 // new SkyBox();
 // new Particle();
 // new Fog();
-new RainAndSnow()
+const snow = new RainAndSnow();
+snow.windSpeed.x = 8;

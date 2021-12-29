@@ -14,7 +14,7 @@ export interface Sprite {
     content: BABYLON.Sprite;
     direction: BABYLON.Vector3;
     time: number;
-    velocity: number;
+    velocity: BABYLON.Vector3;
     isStop: boolean;
 }
 
