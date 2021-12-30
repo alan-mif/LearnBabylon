@@ -39,7 +39,7 @@ export class RainAndSnow extends Base {
 
         engine.runRenderLoop((): void => {
 
-            if (this._groundSpriteCount < this.sprites.length) this._particleMigration();
+            if (this._groundSpriteCount < this.sprites.length) this._SpriteMigration();
 
             scene.render();
 
@@ -73,9 +73,9 @@ export class RainAndSnow extends Base {
     }
 
     /**
-     * 粒子移动
+     * 精灵移动
      */
-    private _particleMigration() {
+    private _SpriteMigration() {
 
         const time: number = new Date().getTime(),
             deltaTime = 0.01,
@@ -91,7 +91,7 @@ export class RainAndSnow extends Base {
                     totalTime: number = (time - sprite.time) / 1000;
 
                 if (position.y > size / 2) {
-                    totalTime > 0 && this._computeParticlePosition(sprite, totalTime, deltaTime);
+                    totalTime > 0 && this._computeSpritePosition(sprite, totalTime, deltaTime);
                 } else {
 
                     position.y = size / 2;
@@ -113,16 +113,16 @@ export class RainAndSnow extends Base {
     }
 
     /**
-     * 计算粒子位置
-     * @param sprite 粒子
+     * 计算精灵位置
+     * @param sprite 精灵
      * @param totalTime 总时长
      * @param deltaTime 间隔时间
      */
-    private _computeParticlePosition(sprite: Sprite, totalTime: number, deltaTime: number) {
+    private _computeSpritePosition(sprite: Sprite, totalTime: number, deltaTime: number) {
 
         const acceleration = this.gravitationalA.y - this.airDragK * sprite.velocity.y * this.diameter / this.mass;
         if (acceleration < 0) sprite.velocity.y = acceleration * totalTime;
-        
+
         const content = sprite.content;
         content.position.x += this.windSpeed.x * deltaTime * 0.5;
         content.position.y += sprite.velocity.y * deltaTime;
