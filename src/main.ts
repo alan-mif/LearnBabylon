@@ -22,4 +22,6 @@ import './style.css';
 // new Particle();
 // new Fog();
 const snow = new RainAndSnow();
-snow.windSpeed.x = 8;
+// snow.windSpeed.x = 2;
+// snow.windSpeed.z = -1;
+// snow.mass = 0.01;
