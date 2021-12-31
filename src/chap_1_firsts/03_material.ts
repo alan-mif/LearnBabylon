@@ -21,9 +21,20 @@ export class Material {
         const myMaterial = new BABYLON.StandardMaterial("myMaterial", scene); // 参数1 材质 name，参数2 传入 scene
         // myMaterial.diffuseColor = new BABYLON.Color3(0, 0, 1);
         // myMaterial.emissiveColor = new BABYLON.Color3(0.5, 0.5, 0.5); // 自发光颜色
-        // myMaterial.alpha = 0.5;
-        myMaterial.diffuseTexture = new BABYLON.Texture("./textures/crate.png", scene);
-        mesh.material = myMaterial;// mesh是之前创建的物体
+        // myMaterial.alpha = 0.5; 
+        const texture = new BABYLON.Texture("./textures/crate.png", scene);
+        const texture2 = new BABYLON.Texture("./textures/flare.png", scene);
+        myMaterial.diffuseTexture = texture;
+        // mesh.material = myMaterial; // mesh是之前创建的物体
+
+        const shaderMaterial = new BABYLON.ShaderMaterial("shader", scene, "./shaders/custom",
+            {
+                attributes: ["position", "normal", "uv"],
+                uniforms: ["world", "worldView", "worldViewProjection", "view", "projection", "time", "direction"]
+            });
+        shaderMaterial.setTexture("textureSampler", texture);
+        shaderMaterial.setTexture("textureSampler2", texture2);
+        mesh.material = shaderMaterial;
 
         engine.runRenderLoop((): void => {
             scene.render();
