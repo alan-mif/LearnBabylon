@@ -13,14 +13,14 @@ import './style.css';
 
 // new HelloWorld();
 // new MeshBuilder();
-new Material();
+// new Material();
 // new Animation();
 // new Sprite();
 // new Collisions();
 // new SkullGame();
 // new SkyBox();
 // new Particle();
-// new Fog();
+new Fog();
 // const snow = new RainAndSnow();
 // snow.windSpeed.x = 2;
 // snow.windSpeed.z = -1;
