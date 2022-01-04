@@ -9,6 +9,7 @@ import { SkyBox } from './chap_1_firsts/08_skyBox';
 import { Particle } from './chap_1_firsts/09_particle';
 import { Fog } from './chap_1_firsts/09_fog';
 import { RainAndSnow } from './chap_1_firsts/09_rainAndSnow';
+import { Raycaster } from './chap_1_firsts/10_raycaster';
 import './style.css';
 
 // new HelloWorld();
@@ -20,8 +21,9 @@ import './style.css';
 // new SkullGame();
 // new SkyBox();
 // new Particle();
-new Fog();
+// new Fog();
 // const snow = new RainAndSnow();
 // snow.windSpeed.x = 2;
 // snow.windSpeed.z = -1;
 // snow.mass = 0.01;
+new Raycaster();
