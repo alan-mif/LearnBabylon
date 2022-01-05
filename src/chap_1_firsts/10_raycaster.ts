@@ -18,7 +18,7 @@ export class Raycaster extends Base {
 
         const { engine, scene } = this;
 
-        const box: BABYLON.Mesh = BABYLON.MeshBuilder.CreateBox('box', {}, this.scene);
+        const box: BABYLON.Mesh = BABYLON.MeshBuilder.CreateBox('box', {});
         box.position.y = 1;
         box.material = new BABYLON.StandardMaterial('', scene);
 
@@ -54,8 +54,6 @@ export class Raycaster extends Base {
                 if (material) material.diffuseColor = new BABYLON.Color3(1, 0, 1);
 
             }
-
-            console.log(pickResult);
 
         }
 

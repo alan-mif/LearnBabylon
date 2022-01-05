@@ -61,7 +61,7 @@ export class Base {
         this.engine = new BABYLON.Engine(this.canvas, true);
         this.scene = new BABYLON.Scene(this.engine);
         this.camera = new BABYLON.ArcRotateCamera('camera', -Math.PI / 2, Math.PI / 2, 2, new BABYLON.Vector3(0, 0, 0), this.scene);
-        this.ground = BABYLON.MeshBuilder.CreateGround("myGround", { width: 50, height: 50, subdivisions: 4 }, this.scene);
+        this.ground = BABYLON.MeshBuilder.CreateGround("myGround", { width: 50, height: 50, subdivisions: 4 });
 
         const groundMaterial = new BABYLON.StandardMaterial("material", this.scene);
         groundMaterial.diffuseColor = new BABYLON.Color3(0, 0, 0);
