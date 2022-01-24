@@ -1,4 +1,4 @@
-import { Base, Sprite } from "./base";
+import { Base, Sprite } from "./Base";
 
 export class RainAndSnow extends Base {
 

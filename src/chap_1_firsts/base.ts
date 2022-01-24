@@ -79,4 +79,24 @@ export class Base {
         window.addEventListener('resize', (): void => this.engine.resize());
     }
 
+    /**
+     * 创建天空盒
+     * @param src 资源路径
+     */
+    protected _createSkybox(src: string) {
+
+        const skyBox = BABYLON.MeshBuilder.CreateBox("skyBox", {
+            size: 2000.0
+        }, this.scene),
+            skyBoxMaterial = new BABYLON.StandardMaterial("skyBox", this.scene);
+
+        skyBoxMaterial.backFaceCulling = false;
+        skyBoxMaterial.reflectionTexture = new BABYLON.CubeTexture(src, this.scene);
+        skyBoxMaterial.reflectionTexture.coordinatesMode = BABYLON.Texture.SKYBOX_MODE;
+        skyBoxMaterial.diffuseColor = new BABYLON.Color3(0, 0, 0);
+        skyBoxMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
+        skyBox.material = skyBoxMaterial;
+
+    }
+
 }

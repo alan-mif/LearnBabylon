@@ -1,4 +1,4 @@
-import { Mesh, Base } from "./base";
+import { Mesh, Base } from "./Base";
 
 export class SkullGame extends Base {
 

@@ -10,6 +10,7 @@ import { Particle } from './chap_1_firsts/09_particle';
 import { Fog } from './chap_1_firsts/09_fog';
 import { RainAndSnow } from './chap_1_firsts/09_rainAndSnow';
 import { Raycaster } from './chap_1_firsts/10_raycaster';
+import { ShootingGame } from './chap_1_firsts/10_shootingGame';
 import './style.css';
 
 // new HelloWorld();
@@ -26,4 +27,5 @@ import './style.css';
 // snow.windSpeed.x = 2;
 // snow.windSpeed.z = -1;
 // snow.mass = 0.01;
-new Raycaster();
+// new Raycaster();
+new ShootingGame();

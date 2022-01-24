@@ -1,4 +1,4 @@
-import { Mesh, Base } from "./base";
+import { Mesh, Base } from "./Base"
 
 export class Collisions extends Base {
 
@@ -14,9 +14,7 @@ export class Collisions extends Base {
      * 构造函数
      */
     public constructor() {
-
         super();
-
     }
 
     /**
