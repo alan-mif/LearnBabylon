@@ -2,8 +2,12 @@ import { Base } from "./Base";
 
 export class ShootingGame extends Base {
 
+    /** 射线 */
     public ray: BABYLON.Ray;
+    /** 射线辅助体 */
     public helper: BABYLON.RayHelper;
+    /** 主角 */
+    public protagonist: BABYLON.AbstractMesh;
 
     /**
      * 构造函数
@@ -22,35 +26,26 @@ export class ShootingGame extends Base {
         const { engine, scene } = this;
 
         this._createSkybox("./textures/cube/box");
+        this._initTargets();
         this.ground.isPickable = false;
         this.ground.material.alpha = 0;
 
-        const box: BABYLON.Mesh = BABYLON.MeshBuilder.CreateBox('box', {});
-        box.position.y = 2;
-        box.material = new BABYLON.StandardMaterial('', scene);
-        box.isPickable = false;
+        let protagonist: BABYLON.AbstractMesh;
 
-        for (let i = 0; i < 3; i++) {
+        BABYLON.SceneLoader.ImportMesh('', './model/', 'skull.babylon', scene, (target: BABYLON.AbstractMesh[]) => {
 
-            const target: BABYLON.Mesh = BABYLON.MeshBuilder.CreateBox('box', {});
-            target.position.x = 3 * i * Math.random();
-            target.position.y = 5 * i * Math.random();
-            target.position.z = 1 * i * Math.random();
-            target.material = new BABYLON.StandardMaterial('', scene);
+            protagonist = target[0];
+            protagonist.scaling = protagonist.scaling.scale(0.05);
+            protagonist.position = new BABYLON.Vector3();
+            protagonist.material = new BABYLON.StandardMaterial("myMaterial", scene);
+            protagonist.isPickable = false;
 
-            this.meshes.push({
-                content: target,
-                size: { height: 1, width: 1, depth: 1 },
-                direction: new BABYLON.Vector3(Math.random(), Math.random(), Math.random())
-            });
+            this.protagonist = protagonist;
+            this.ray = new BABYLON.Ray(protagonist.position, new BABYLON.Vector3(0, 0, -1), 25);
+            this.helper = new BABYLON.RayHelper(this.ray);
 
-        }
+        });
 
-        this.ray = new BABYLON.Ray(box.position, new BABYLON.Vector3(1, 0, 0), 25);
-        this.helper = new BABYLON.RayHelper(this.ray);
-        this.helper.show(scene, new BABYLON.Color3(0.1, 0.8, 0.32));
-        setTimeout((): void => {
-        }, 2000);
         engine.runRenderLoop((): void => scene.render());
 
     }
@@ -62,21 +57,50 @@ export class ShootingGame extends Base {
 
         super._listen();
 
-        this.canvas.addEventListener('click', this._click());
+        this.canvas.addEventListener('click', this._click.bind(this));
+
+    }
+
+    /**
+     * 初始化目标
+     */
+    private _initTargets() {
+
+        const target: BABYLON.Mesh = BABYLON.MeshBuilder.CreateBox('box', {});
+        target.position.x = 5 * Math.random() * 0.5;
+        target.position.y = 1 * Math.random() * 0.5;
+        target.position.z = -5 * Math.random() * 0.5;
+
+        for (let i = 1; i < 30; i++) {
+
+            const target1 = target.clone();
+            target1.position.x = i * Math.random();
+            target1.position.y = i * Math.random();
+            target1.position.z = -i * Math.random();
+            target1.material = new BABYLON.StandardMaterial('', this.scene);
+
+            this.meshes.push({
+                content: target,
+                size: { height: 1, width: 1, depth: 1 },
+                direction: new BABYLON.Vector3(Math.random(), Math.random(), Math.random())
+            });
+
+        }
 
     }
 
     /**
      * 点击执行
      */
-    private _click(): () => void {
+    private _click(): void {
 
-        return (): void => {
+        const hit = this.scene.pickWithRay(this.ray);
 
-            const hit = this.scene.pickWithRay(this.ray);
-            console.log(hit);
+        this.helper.show(this.scene, new BABYLON.Color3(0.1, 0.8, 0.32));
 
-        }
+        setTimeout((): void => this.helper.hide(), 1000);
+
+        console.log(hit);
 
     }
 

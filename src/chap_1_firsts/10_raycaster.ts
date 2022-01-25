@@ -33,7 +33,7 @@ export class Raycaster extends Base {
 
         super._listen();
 
-        this.canvas.addEventListener('click', this._click());
+        this.canvas.addEventListener('click', this._click.bind(this));
 
     }
 
@@ -41,19 +41,15 @@ export class Raycaster extends Base {
      * 点击执行
      * @param event 鼠标事件
      */
-    private _click(): () => void {
+    private _click(): void {
 
-        return (): void => {
+        const scene: BABYLON.Scene = this.scene,
+            pickResult: BABYLON.PickingInfo = scene.pick(scene.pointerX, scene.pointerY);
 
-            const scene: BABYLON.Scene = this.scene,
-                pickResult: BABYLON.PickingInfo = scene.pick(scene.pointerX, scene.pointerY);
+        if (pickResult.pickedMesh) {
 
-            if (pickResult.pickedMesh) {
-
-                const material: BABYLON.StandardMaterial = pickResult.pickedMesh.material as BABYLON.StandardMaterial;
-                if (material) material.diffuseColor = new BABYLON.Color3(1, 0, 1);
-
-            }
+            const material: BABYLON.StandardMaterial = pickResult.pickedMesh.material as BABYLON.StandardMaterial;
+            if (material) material.diffuseColor = new BABYLON.Color3(1, 0, 1);
 
         }
 
