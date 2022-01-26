@@ -48,23 +48,15 @@ export class ShootingGame extends Base {
 
         engine.runRenderLoop((): void => scene.render());
 
-    }
-
-    /**
-     * 事件监听
-     */
-    protected _listen(): void {
-
-        super._listen();
-
-        this.canvas.addEventListener('click', this._click.bind(this));
+        this._listener.addClick(this._click.bind(this));
+        this._listener.addHover(this._hover);
 
     }
 
     /**
      * 初始化目标
      */
-    private _initTargets() {
+    private _initTargets(): void {
 
         const target: BABYLON.Mesh = BABYLON.MeshBuilder.CreateBox('box', {});
         target.position.x = 5 * Math.random() * 0.5;
@@ -92,7 +84,9 @@ export class ShootingGame extends Base {
     /**
      * 点击执行
      */
-    private _click(): void {
+    private _click(event: MouseEvent): void {
+
+        console.log(event);
 
         const hit = this.scene.pickWithRay(this.ray);
 
@@ -100,8 +94,12 @@ export class ShootingGame extends Base {
 
         setTimeout((): void => this.helper.hide(), 1000);
 
-        console.log(hit);
+    }
 
+    /**
+     * 点击执行
+     */
+    private _hover(event: MouseEvent): void {
     }
 
 }
