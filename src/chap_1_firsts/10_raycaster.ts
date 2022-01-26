@@ -23,17 +23,8 @@ export class Raycaster extends Base {
         box.material = new BABYLON.StandardMaterial('', scene);
 
         engine.runRenderLoop((): void => scene.render());
-
-    }
-
-    /**
-     * 事件监听
-     */
-    protected _listen(): void {
-
-        super._listen();
-
-        this.canvas.addEventListener('click', this._click.bind(this));
+        
+        this._listener.addClick(this._click.bind(this));
 
     }
 

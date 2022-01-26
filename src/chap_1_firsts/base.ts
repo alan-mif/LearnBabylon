@@ -49,7 +49,6 @@ export class Base {
     public constructor() {
 
         this._init();
-        this._listen();
 
     }
 
@@ -74,16 +73,10 @@ export class Base {
         this.camera.attachControl(this.canvas, true); // 相机绑定控制
         new BABYLON.HemisphericLight('light1', new BABYLON.Vector3(0, 1, 0), this.scene); // 添加半球光用来模拟环境光
 
+        // 事件监听
         this._listener = new Listener(this.canvas);
         this._listener.addResize((): void => this.engine.resize());
 
-    }
-
-    /**
-     * 事件监听
-     */
-    protected _listen(): void {
-        // window.addEventListener('resize', (): void => this.engine.resize());
     }
 
     /**

@@ -49,7 +49,7 @@ export class ShootingGame extends Base {
         engine.runRenderLoop((): void => scene.render());
 
         this._listener.addClick(this._click.bind(this));
-        this._listener.addHover(this._hover);
+        this._listener.addHover(this._hover.bind(this));
 
     }
 
@@ -84,9 +84,7 @@ export class ShootingGame extends Base {
     /**
      * 点击执行
      */
-    private _click(event: MouseEvent): void {
-
-        console.log(event);
+    private _click(): void {
 
         const hit = this.scene.pickWithRay(this.ray);
 
@@ -97,9 +95,23 @@ export class ShootingGame extends Base {
     }
 
     /**
-     * 点击执行
+     * 滑动执行
      */
-    private _hover(event: MouseEvent): void {
+    private _hover(): void {
+
+        const lastX = this._listener.lastHoverP.x,
+            lastY = this._listener.lastHoverP.y,
+            currentX = this._listener.currentHoverP.x,
+            currentY = this._listener.currentHoverP.y,
+            protagonist = this.protagonist;
+
+        if (!!protagonist) {
+
+            protagonist.rotation.x += (currentY - lastY) / 20;
+            protagonist.rotation.y += (currentX - lastX) / 20;
+
+        }
+
     }
 
 }

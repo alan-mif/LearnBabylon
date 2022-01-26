@@ -3,23 +3,15 @@ export class Listener {
     /** 监听目标 */
     public target: HTMLElement;
 
-    /** 上次鼠标点击的 x 坐标 */
-    private _lastClickX: number;
-    /** 上次鼠标点击的 y 坐标 */
-    private _lastClickY: number;
-    /** 当前鼠标点击的 x 坐标 */
-    private _currentClickX: number;
-    /** 当前鼠标点击的 y 坐标 */
-    private _currentClickY: number;
+    /** 上次鼠标点击的坐标 */
+    private _lastClickP: BABYLON.Vector2;
+    /** 当前鼠标点击的坐标 */
+    private _currentClickP: BABYLON.Vector2;
 
-    /** 上次鼠标移动的 x 坐标 */
-    private _lastMoveX: number;
-    /** 上次鼠标移动的 y 坐标 */
-    private _lastMoveY: number;
-    /** 当前鼠标移动的 x 坐标 */
-    private _currentMoveX: number;
-    /** 当前鼠标移动的 y 坐标 */
-    private _currentMoveY: number;
+    /** 上次鼠标滑动的坐标 */
+    private _lastHoverP: BABYLON.Vector2;
+    /** 当前鼠标滑动的坐标 */
+    private _currentHoverP: BABYLON.Vector2;
 
     /** 点击函数缓存 */
     private _clickCache: Set<Function>;
@@ -39,6 +31,10 @@ export class Listener {
         this._clickCache = new Set();
         this._hoverCache = new Set();
         this._resizeCache = new Set();
+        this._lastClickP = new BABYLON.Vector2();
+        this._currentClickP = new BABYLON.Vector2();
+        this._lastHoverP = new BABYLON.Vector2();
+        this._currentHoverP = new BABYLON.Vector2();
 
         this._init();
 
@@ -64,7 +60,7 @@ export class Listener {
      * 添加 resize 函数
      * @param callback 
      */
-     public addResize(callback: Function): void {
+    public addResize(callback: Function): void {
         this._resizeCache.add(callback);
     }
 
@@ -73,7 +69,11 @@ export class Listener {
      * @param event 
      */
     private _click(event: MouseEvent): void {
+
+        this._lastClickP = this._currentClickP.clone();
+        this._currentClickP = new BABYLON.Vector2(event.screenX, event.screenY);
         this._clickCache.forEach((value: Function): void => value(event));
+
     }
 
     /**
@@ -81,7 +81,11 @@ export class Listener {
      * @param event 
      */
     private _hover(event: MouseEvent): void {
+
+        this._lastHoverP = this._currentHoverP.clone();
+        this._currentHoverP = new BABYLON.Vector2(event.screenX, event.screenY);
         this._hoverCache.forEach((value: Function): void => value(event));
+
     }
 
     /**
@@ -103,31 +107,31 @@ export class Listener {
     }
 
     /**
-     * 获取上次点击 x 坐标
+     * 获取上次点击坐标
      */
-    public get lastClickX(): number {
-        return this._lastClickX;
+    public get lastClickP(): BABYLON.Vector2 {
+        return this._lastClickP;
     }
 
     /**
-     * 获取上次点击 y 坐标
+     * 获取当前点击坐标
      */
-    public get lastClickY(): number {
-        return this._lastClickX;
+    public get currentClickP(): BABYLON.Vector2 {
+        return this._currentClickP;
     }
 
     /**
-     * 获取上次滑动 x 坐标
+     * 获取上次滑动坐标
      */
-    public get lastHoverX(): number {
-        return this._lastClickX;
+    public get lastHoverP(): BABYLON.Vector2 {
+        return this._lastHoverP;
     }
 
     /**
-     * 获取上次滑动 y 坐标
+     * 获取当前滑动坐标
      */
-    public get lastHoverY(): number {
-        return this._lastClickX;
+    public get currentHoverP(): BABYLON.Vector2 {
+        return this._currentHoverP;
     }
 
 }
