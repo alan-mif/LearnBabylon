@@ -96,7 +96,7 @@ export class ShootingGame extends Base {
         this._ray = new BABYLON.Ray(protagonist.position, this._direction, 25);
         this._helper = new BABYLON.RayHelper(this._ray);
         this._helper.show(this.scene, new BABYLON.Color3(0.1, 0.8, 0.32));
-        
+
         setTimeout((): void => this._helper.hide(), 1000);
 
         const hit = this.scene.pickWithRay(this._ray);
