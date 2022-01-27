@@ -235,8 +235,9 @@ export class SkullGame extends Base {
 
         engine.runRenderLoop((): void => {
 
-            camera.alpha = this.camera.alpha;
-            camera.beta = this.camera.beta;
+            const camera0 = this.camera as BABYLON.ArcRotateCamera;
+            camera.alpha = camera0.alpha;
+            camera.beta = camera0.beta;
 
             scene.render();
 

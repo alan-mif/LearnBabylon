@@ -28,7 +28,7 @@ export class Base {
     /** 场景 */
     public scene: BABYLON.Scene;
     /** 相机 */
-    public camera: BABYLON.ArcRotateCamera;
+    public camera: BABYLON.ArcRotateCamera | BABYLON.UniversalCamera;
     /** 物体集合 */
     public meshes: Array<Mesh> = [];
     /** 精灵集合 */
@@ -66,7 +66,7 @@ export class Base {
         this.camera = new BABYLON.ArcRotateCamera('camera', -Math.PI / 2, Math.PI / 2, 2, new BABYLON.Vector3(0, 0, 0), this.scene);
         this.ground = BABYLON.MeshBuilder.CreateGround("myGround", { width: 50, height: 50, subdivisions: 4 });
 
-        const groundMaterial = new BABYLON.StandardMaterial("material", this.scene);
+        const groundMaterial: BABYLON.StandardMaterial = new BABYLON.StandardMaterial("material", this.scene);
         groundMaterial.diffuseColor = new BABYLON.Color3(0, 0, 0);
         this.ground.material = groundMaterial;
 
@@ -85,7 +85,7 @@ export class Base {
      */
     protected _createSkybox(src: string) {
 
-        const skyBox = BABYLON.MeshBuilder.CreateBox("skyBox", {
+        const skyBox: BABYLON.Mesh = BABYLON.MeshBuilder.CreateBox("skyBox", {
             size: 2000.0
         }, this.scene),
             skyBoxMaterial = new BABYLON.StandardMaterial("skyBox", this.scene);

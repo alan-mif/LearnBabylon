@@ -8,7 +8,7 @@ export class ShootingGame extends Base {
     private _helper: BABYLON.RayHelper;
     /** 主角 */
     private _protagonist: BABYLON.AbstractMesh;
-    /** */
+    /** 射线方向 */
     private _direction: BABYLON.Vector3;
 
     /**
@@ -25,24 +25,28 @@ export class ShootingGame extends Base {
 
         super._init();
 
-        const { engine, scene } = this;
+        const { engine, scene, canvas } = this;
 
         this._createSkybox("./textures/cube/box");
         this._initTargets();
         this.ground.isPickable = false;
         this.ground.material.alpha = 0;
+        this.camera.dispose();
+        this.camera = new BABYLON.UniversalCamera("", new BABYLON.Vector3(), scene);
+        this.camera.attachControl(canvas, true); // 相机绑定控制
 
         let protagonist: BABYLON.AbstractMesh;
 
-        BABYLON.SceneLoader.ImportMesh('', './model/', 'skull.babylon', scene, (target: BABYLON.AbstractMesh[]) => {
+        BABYLON.SceneLoader.ImportMesh('', './model/', 'skull.babylon', scene, (target: BABYLON.AbstractMesh[]): void => {
 
             protagonist = target[0];
             protagonist.scaling = protagonist.scaling.scale(0.05);
-            protagonist.position = new BABYLON.Vector3();
+            protagonist.position = new BABYLON.Vector3(0, 2, 0);
             protagonist.material = new BABYLON.StandardMaterial("myMaterial", scene);
             protagonist.isPickable = false;
 
             this._protagonist = protagonist;
+
         });
 
         engine.runRenderLoop((): void => scene.render());
@@ -85,7 +89,7 @@ export class ShootingGame extends Base {
      */
     private _click(): void {
 
-        !!this._helper && this._helper.dispose();
+        this._helper && this._helper.dispose();
 
         const protagonist = this._protagonist,
             m = protagonist.getWorldMatrix(),
@@ -115,9 +119,9 @@ export class ShootingGame extends Base {
             currentY = this._listener.currentHoverP.y,
             protagonist = this._protagonist;
 
-        if (!!protagonist) {
+        if (protagonist) {
 
-            protagonist.rotation.x += (currentY - lastY) / 20;
+            protagonist.rotation.x -= (currentY - lastY) / 20;
             protagonist.rotation.y += (currentX - lastX) / 20;
 
         }
