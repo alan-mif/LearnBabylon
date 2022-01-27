@@ -3,11 +3,13 @@ import { Base } from "./Base";
 export class ShootingGame extends Base {
 
     /** 射线 */
-    public ray: BABYLON.Ray;
+    private _ray: BABYLON.Ray;
     /** 射线辅助体 */
-    public helper: BABYLON.RayHelper;
+    private _helper: BABYLON.RayHelper;
     /** 主角 */
-    public protagonist: BABYLON.AbstractMesh;
+    private _protagonist: BABYLON.AbstractMesh;
+    /** */
+    private _direction: BABYLON.Vector3;
 
     /**
      * 构造函数
@@ -40,10 +42,7 @@ export class ShootingGame extends Base {
             protagonist.material = new BABYLON.StandardMaterial("myMaterial", scene);
             protagonist.isPickable = false;
 
-            this.protagonist = protagonist;
-            this.ray = new BABYLON.Ray(protagonist.position, new BABYLON.Vector3(0, 0, -1), 25);
-            this.helper = new BABYLON.RayHelper(this.ray);
-
+            this._protagonist = protagonist;
         });
 
         engine.runRenderLoop((): void => scene.render());
@@ -86,11 +85,22 @@ export class ShootingGame extends Base {
      */
     private _click(): void {
 
-        const hit = this.scene.pickWithRay(this.ray);
+        !!this._helper && this._helper.dispose();
 
-        this.helper.show(this.scene, new BABYLON.Color3(0.1, 0.8, 0.32));
+        const protagonist = this._protagonist,
+            m = protagonist.getWorldMatrix(),
+            v = BABYLON.Vector3.TransformCoordinates(new BABYLON.Vector3(0, 0, -1), m),
+            direction = v.subtract(protagonist.position);
 
-        setTimeout((): void => this.helper.hide(), 1000);
+        this._direction = BABYLON.Vector3.Normalize(direction);
+        this._ray = new BABYLON.Ray(protagonist.position, this._direction, 25);
+        this._helper = new BABYLON.RayHelper(this._ray);
+        this._helper.show(this.scene, new BABYLON.Color3(0.1, 0.8, 0.32));
+        
+        setTimeout((): void => this._helper.hide(), 1000);
+
+        const hit = this.scene.pickWithRay(this._ray);
+        console.log(hit);
 
     }
 
@@ -103,7 +113,7 @@ export class ShootingGame extends Base {
             lastY = this._listener.lastHoverP.y,
             currentX = this._listener.currentHoverP.x,
             currentY = this._listener.currentHoverP.y,
-            protagonist = this.protagonist;
+            protagonist = this._protagonist;
 
         if (!!protagonist) {
 
