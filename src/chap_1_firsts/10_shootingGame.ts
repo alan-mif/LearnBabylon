@@ -2,15 +2,6 @@ import { Base } from "./Base";
 
 export class ShootingGame extends Base {
 
-    /** 射线 */
-    private _ray: BABYLON.Ray;
-    /** 射线辅助体 */
-    private _helper: BABYLON.RayHelper;
-    /** 主角 */
-    private _protagonist: BABYLON.AbstractMesh;
-    /** 射线方向 */
-    private _direction: BABYLON.Vector3;
-
     /**
      * 构造函数
      */
@@ -29,25 +20,12 @@ export class ShootingGame extends Base {
 
         this._createSkybox("./textures/cube/box");
         this._initTargets();
+        this.skybox.isPickable = false;
         this.ground.isPickable = false;
         this.ground.material.alpha = 0;
         this.camera.dispose();
         this.camera = new BABYLON.UniversalCamera("", new BABYLON.Vector3(), scene);
         this.camera.attachControl(canvas, true); // 相机绑定控制
-
-        let protagonist: BABYLON.AbstractMesh;
-
-        BABYLON.SceneLoader.ImportMesh('', './model/', 'skull.babylon', scene, (target: BABYLON.AbstractMesh[]): void => {
-
-            protagonist = target[0];
-            protagonist.scaling = protagonist.scaling.scale(0.05);
-            protagonist.position = new BABYLON.Vector3(0, 2, 0);
-            protagonist.material = new BABYLON.StandardMaterial("myMaterial", scene);
-            protagonist.isPickable = false;
-
-            this._protagonist = protagonist;
-
-        });
 
         engine.runRenderLoop((): void => scene.render());
 
@@ -74,6 +52,7 @@ export class ShootingGame extends Base {
             target1.position.z = -i * Math.random();
             target1.material = new BABYLON.StandardMaterial('', this.scene);
 
+            this.setAnimation(target1);
             this.meshes.push({
                 content: target,
                 size: { height: 1, width: 1, depth: 1 },
@@ -89,22 +68,12 @@ export class ShootingGame extends Base {
      */
     private _click(): void {
 
-        this._helper && this._helper.dispose();
+        const pickResult: BABYLON.PickingInfo = this.scene.pick(this.canvas.width / 2, this.canvas.height / 2),
+            pickedMesh = pickResult.pickedMesh;
 
-        const protagonist = this._protagonist,
-            m = protagonist.getWorldMatrix(),
-            v = BABYLON.Vector3.TransformCoordinates(new BABYLON.Vector3(0, 0, -1), m),
-            direction = v.subtract(protagonist.position);
-
-        this._direction = BABYLON.Vector3.Normalize(direction);
-        this._ray = new BABYLON.Ray(protagonist.position, this._direction, 25);
-        this._helper = new BABYLON.RayHelper(this._ray);
-        this._helper.show(this.scene, new BABYLON.Color3(0.1, 0.8, 0.32));
-
-        setTimeout((): void => this._helper.hide(), 1000);
-
-        const hit = this.scene.pickWithRay(this._ray);
-        console.log(hit);
+        if (pickedMesh) {
+            this.scene.beginAnimation(pickedMesh, 0, 100, false).onAnimationEnd = (): void => pickedMesh.dispose();
+        }
 
     }
 
@@ -112,19 +81,34 @@ export class ShootingGame extends Base {
      * 滑动执行
      */
     private _hover(): void {
+    }
 
-        const lastX = this._listener.lastHoverP.x,
-            lastY = this._listener.lastHoverP.y,
-            currentX = this._listener.currentHoverP.x,
-            currentY = this._listener.currentHoverP.y,
-            protagonist = this._protagonist;
+    /**
+     * 设置动画
+     * @param target 动画目标
+     */
+    private setAnimation(target: BABYLON.Mesh): void {
 
-        if (protagonist) {
+        const material: BABYLON.StandardMaterial = target.material as BABYLON.StandardMaterial,
+            animation: BABYLON.Animation = new BABYLON.Animation("", "diffuseColor", 30, BABYLON.Animation.ANIMATIONTYPE_COLOR3, BABYLON.Animation.ANIMATIONLOOPMODE_CYCLE),
+            keys: any[] = [];
 
-            protagonist.rotation.x -= (currentY - lastY) / 20;
-            protagonist.rotation.y += (currentX - lastX) / 20;
-
-        }
+        keys.push({
+            frame: 0,
+            value: new BABYLON.Color3(1, 1, 1)
+        }, {
+            frame: 30,
+            value: new BABYLON.Color3(0.8, 0.6, 0.8)
+        }, {
+            frame: 50,
+            value: new BABYLON.Color3(0.8, 0.6, 0.4)
+        }, {
+            frame: 100,
+            value: new BABYLON.Color3(0.8, 0.2, 0.2)
+        });
+        animation.setKeys(keys);
+        material.animations = [];
+        material.animations.push(animation);
 
     }
 
