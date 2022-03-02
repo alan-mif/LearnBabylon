@@ -43,15 +43,15 @@ export class ShootingGame extends Base {
 
         var body = document.body;
         var img = document.createElement('img');
+        
         img.width = 32;
         img.height = 32;
         img.style.zIndex = '2';
         img.style.position = 'absolute';
-
         img.style.left = '' + Math.floor((body.clientWidth - img.width) / 2) + 'px';
         img.style.top = '' + Math.floor((body.clientHeight - img.height) / 2) + 'px';
         img.src = './textures/front_sight.png';
-        console.log(img.style.left, 1, img.style.top);
+
         body.appendChild(img);
 
     }
