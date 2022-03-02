@@ -27,10 +27,32 @@ export class ShootingGame extends Base {
         this.camera = new BABYLON.UniversalCamera("", new BABYLON.Vector3(), scene);
         this.camera.attachControl(canvas, true); // 相机绑定控制
 
+        this._makeFrontSight();
+
         engine.runRenderLoop((): void => scene.render());
 
         this._listener.addClick(this._click.bind(this));
         this._listener.addHover(this._hover.bind(this));
+
+    }
+
+    /**
+     * 生成准星
+     */
+    private _makeFrontSight() {
+
+        var body = document.body;
+        var img = document.createElement('img');
+        img.width = 32;
+        img.height = 32;
+        img.style.zIndex = '2';
+        img.style.position = 'absolute';
+
+        img.style.left = '' + Math.floor((body.clientWidth - img.width) / 2) + 'px';
+        img.style.top = '' + Math.floor((body.clientHeight - img.height) / 2) + 'px';
+        img.src = './textures/front_sight.png';
+        console.log(img.style.left, 1, img.style.top);
+        body.appendChild(img);
 
     }
 
