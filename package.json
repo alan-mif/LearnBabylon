@@ -11,7 +11,6 @@
         "@babylonjs/core": "^4.2.0",
         "@babylonjs/gui": "^4.2.0",
         "@types/earcut": "^2.1.1",
-        "axios": "^0.26.1",
         "babel-loader": "^8.2.2",
         "babylonjs": "^4.2.0",
         "babylonjs-gui": "^4.2.0",
