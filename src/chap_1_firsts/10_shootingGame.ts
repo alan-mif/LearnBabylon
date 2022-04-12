@@ -19,7 +19,6 @@ export class ShootingGame extends Base {
         const { engine, scene, canvas } = this;
 
         this._createSkybox("./textures/cube/box");
-        this._initTargets();
         this.skybox.isPickable = false;
         this.ground.isPickable = false;
         this.ground.material.alpha = 0;
@@ -27,12 +26,40 @@ export class ShootingGame extends Base {
         this.camera = new BABYLON.UniversalCamera("", new BABYLON.Vector3(), scene);
         this.camera.attachControl(canvas, true); // 相机绑定控制
 
+        this._initTargets();
         this._makeFrontSight();
 
-        engine.runRenderLoop((): void => scene.render());
+        let alpha = Math.PI;
+
+        engine.runRenderLoop((): void => {
+
+            alpha = this._moveTarget(alpha);
+            scene.render();
+
+        });
 
         this._listener.addClick(this._click.bind(this));
         this._listener.addHover(this._hover.bind(this));
+
+    }
+
+    /**
+     * 移动靶子
+     */
+    private _moveTarget(alpha: number) {
+         
+        alpha += 0.01;
+
+        for (let i = 0; i < this.meshes.length; i++) {
+
+            const mesh = this.meshes[i];
+            mesh.content.position.x += mesh.direction.x * Math.cos(alpha);
+            mesh.content.position.y += mesh.direction.y * Math.cos(alpha);
+            mesh.content.position.z += mesh.direction.z * Math.cos(alpha);
+
+        }
+
+        return alpha;
 
     }
 
@@ -41,11 +68,11 @@ export class ShootingGame extends Base {
      */
     private _makeFrontSight() {
 
-        var body = document.body;
-        var img = document.createElement('img');
-        
-        img.width = 32;
-        img.height = 32;
+        const body = document.body,
+            img = document.createElement('img');
+
+        img.width = 16;
+        img.height = 16;
         img.style.zIndex = '2';
         img.style.position = 'absolute';
         img.style.left = '' + Math.floor((body.clientWidth - img.width) / 2) + 'px';
@@ -57,7 +84,7 @@ export class ShootingGame extends Base {
     }
 
     /**
-     * 初始化目标
+     * 初始化靶子
      */
     private _initTargets(): void {
 
@@ -65,6 +92,12 @@ export class ShootingGame extends Base {
         target.position.x = 5 * Math.random() * 0.5;
         target.position.y = 1 * Math.random() * 0.5;
         target.position.z = -5 * Math.random() * 0.5;
+        
+        this.meshes.push({
+            content: target,
+            size: { height: 1, width: 1, depth: 1 },
+            direction: new BABYLON.Vector3(Math.random(), Math.random(), Math.random())
+        });
 
         for (let i = 1; i < 30; i++) {
 
@@ -76,7 +109,7 @@ export class ShootingGame extends Base {
 
             this.setAnimation(target1);
             this.meshes.push({
-                content: target,
+                content: target1,
                 size: { height: 1, width: 1, depth: 1 },
                 direction: new BABYLON.Vector3(Math.random(), Math.random(), Math.random())
             });
