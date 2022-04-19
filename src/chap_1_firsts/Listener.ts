@@ -13,9 +13,14 @@ export class Listener {
     /** 当前鼠标滑动的坐标 */
     private _currentHoverP: BABYLON.Vector2;
 
+    /** 上次触摸的坐标 */
+    private _lastTouchP: BABYLON.Vector2;
+    /** 当前触摸的坐标 */
+    private _currentTouchP: BABYLON.Vector2;
+
     /** 点击函数缓存 */
     private _clickCache: Set<Function>;
-    /** 移动函数缓存 */
+    /** 滑动函数缓存 */
     private _hoverCache: Set<Function>;
     /** resize 函数缓存 */
     private _resizeCache: Set<Function>;
@@ -78,7 +83,7 @@ export class Listener {
 
     /**
      * 滑动执行
-     * @param event 
+     * @param event 鼠标事件
      */
     private _hover(event: MouseEvent): void {
 
@@ -86,6 +91,14 @@ export class Listener {
         this._currentHoverP = new BABYLON.Vector2(event.screenX, event.screenY);
         this._hoverCache.forEach((value: Function): void => value(event));
 
+    }
+
+    /**
+     * 触摸移动执行
+     * @param event 触摸事件
+     */
+    private _touchMove(event:TouchEvent){
+        this._hoverCache.forEach((value: Function): void => value(event));
     }
 
     /**
@@ -102,6 +115,7 @@ export class Listener {
 
         this.target.addEventListener('click', this._click.bind(this));
         this.target.addEventListener('mousemove', this._hover.bind(this));
+        this.target.addEventListener('touchmove', this._touchMove.bind(this));
         window.addEventListener('resize', this._resize.bind(this));
 
     }

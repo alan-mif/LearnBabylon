@@ -11,6 +11,7 @@ import { Fog } from './chap_1_firsts/09_fog';
 import { RainAndSnow } from './chap_1_firsts/09_rainAndSnow';
 import { Raycaster } from './chap_1_firsts/10_raycaster';
 import { ShootingGame } from './chap_1_firsts/10_shootingGame';
+import { CollideGame } from './chap_1_firsts/10_collideGame';
 import './style.css';
 
 // new HelloWorld();
@@ -28,4 +29,5 @@ import './style.css';
 // snow.windSpeed.z = -1;
 // snow.mass = 0.01;
 // new Raycaster();
-new ShootingGame();
+// new ShootingGame();
+new CollideGame();
