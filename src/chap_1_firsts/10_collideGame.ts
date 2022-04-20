@@ -1,4 +1,5 @@
 import { Base } from "./Base";
+import { HoverEnvent } from "./Listener";
 
 export class CollideGame extends Base {
 
@@ -27,7 +28,7 @@ export class CollideGame extends Base {
         this.camera.dispose();
         this.camera = new BABYLON.UniversalCamera("", new BABYLON.Vector3(), scene);
         this.camera.position.y = 2;
-        this.camera.attachControl(canvas, true); // 相机绑定控制
+        // this.camera.attachControl(canvas, true); // 相机绑定控制
 
         this.protagonist = BABYLON.MeshBuilder.CreateBox('box', {});
 
@@ -50,8 +51,9 @@ export class CollideGame extends Base {
 
     /**
      * 滑动执行
+     * @param event
      */
-    private _touchMove(): void {
-        console.log("在摸啦~");
+    private _touchMove(event: HoverEnvent): void {
+        console.log("在摸啦~", event);
     }
 }

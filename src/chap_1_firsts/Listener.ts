@@ -1,3 +1,8 @@
+export interface HoverEnvent {
+    topOffset: number,
+    leftOffset: number,
+    event: TouchEvent | MouseEvent
+}
 export class Listener {
 
     /** 监听目标 */
@@ -97,8 +102,14 @@ export class Listener {
      * 触摸移动执行
      * @param event 触摸事件
      */
-    private _touchMove(event:TouchEvent){
-        this._hoverCache.forEach((value: Function): void => value(event));
+    private _touchMove(event: TouchEvent) {
+
+        this._hoverCache.forEach((value: Function): void => value({
+            topOffset: 1,
+            leftOffset: 1,
+            event: event
+        }));
+
     }
 
     /**
