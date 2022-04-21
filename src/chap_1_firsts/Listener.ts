@@ -1,8 +1,9 @@
-export interface HoverEnvent {
+export interface HoverEvent {
     topOffset: number,
     leftOffset: number,
     event: TouchEvent | MouseEvent
 }
+
 export class Listener {
 
     /** 监听目标 */
@@ -43,6 +44,8 @@ export class Listener {
         this._resizeCache = new Set();
         this._lastClickP = new BABYLON.Vector2();
         this._currentClickP = new BABYLON.Vector2();
+        this._lastTouchP = new BABYLON.Vector2();
+        this._currentTouchP = new BABYLON.Vector2();
         this._lastHoverP = new BABYLON.Vector2();
         this._currentHoverP = new BABYLON.Vector2();
 
@@ -104,11 +107,16 @@ export class Listener {
      */
     private _touchMove(event: TouchEvent) {
 
+        const target = event.targetTouches[0];
+
+        this._currentTouchP.set(target.clientX,target.clientY);
         this._hoverCache.forEach((value: Function): void => value({
             topOffset: 1,
             leftOffset: 1,
             event: event
         }));
+
+        this._lastTouchP = this._currentTouchP.clone();
 
     }
 

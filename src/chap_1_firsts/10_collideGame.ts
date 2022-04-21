@@ -1,5 +1,5 @@
 import { Base } from "./Base";
-import { HoverEnvent } from "./Listener";
+import { HoverEvent } from "./Listener";
 
 export class CollideGame extends Base {
 
@@ -53,7 +53,7 @@ export class CollideGame extends Base {
      * 滑动执行
      * @param event
      */
-    private _touchMove(event: HoverEnvent): void {
+    private _touchMove(event: HoverEvent): void {
         console.log("在摸啦~", event);
     }
 }
