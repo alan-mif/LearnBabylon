@@ -109,10 +109,10 @@ export class Listener {
 
         const target = event.targetTouches[0];
 
-        this._currentTouchP.set(target.clientX,target.clientY);
+        this._currentTouchP.set(target.clientX, target.clientY);
         this._hoverCache.forEach((value: Function): void => value({
-            topOffset: 1,
-            leftOffset: 1,
+            topOffset: this._currentTouchP.x - this._lastTouchP.x,
+            leftOffset: this._currentTouchP.y - this._lastTouchP.y,
             event: event
         }));
 

@@ -1,3 +1,4 @@
+import { PositionGizmo } from "babylonjs";
 import { Base } from "./Base";
 import { HoverEvent } from "./Listener";
 
@@ -20,15 +21,13 @@ export class CollideGame extends Base {
 
         super._init();
 
-        const { engine, scene, canvas } = this;
+        const { engine, scene } = this;
 
         this._createSkybox("./textures/cube/box");
         this.skybox.isPickable = false;
         this.ground.isPickable = false;
         this.camera.dispose();
-        this.camera = new BABYLON.UniversalCamera("", new BABYLON.Vector3(), scene);
-        this.camera.position.y = 2;
-        // this.camera.attachControl(canvas, true); // 相机绑定控制
+        this.camera = new BABYLON.UniversalCamera("", new BABYLON.Vector3(0, 2, 0), scene);
 
         this.protagonist = BABYLON.MeshBuilder.CreateBox('box', {});
 
@@ -44,9 +43,14 @@ export class CollideGame extends Base {
 
     /**
      * 更新相机位置
+     * @param x x 坐标
+     * @param y y 坐标
+     * @param z z 坐标
      */
-    private _updateCameraPosition(): void {
-
+    private _updateCameraPosition(x: number, y: number, z: number): void {
+        this.camera.position.x += x;
+        this.camera.position.y += y;
+        this.camera.position.z += z;
     }
 
     /**
@@ -54,6 +58,6 @@ export class CollideGame extends Base {
      * @param event
      */
     private _touchMove(event: HoverEvent): void {
-        console.log("在摸啦~", event);
+        this._updateCameraPosition(event.topOffset, 0, event.leftOffset);
     }
 }
