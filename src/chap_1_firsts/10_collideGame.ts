@@ -1,4 +1,3 @@
-import { PositionGizmo } from "babylonjs";
 import { Base } from "./Base";
 import { HoverEvent } from "./Listener";
 
