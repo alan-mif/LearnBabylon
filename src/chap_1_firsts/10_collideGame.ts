@@ -27,8 +27,11 @@ export class CollideGame extends Base {
         this.ground.isPickable = false;
         this.camera.dispose();
         this.camera = new BABYLON.UniversalCamera("", new BABYLON.Vector3(0, 2, 0), scene);
+        // this.camera.rotation.x = -0.1;
+        console.log(this.camera);
 
         this.protagonist = BABYLON.MeshBuilder.CreateBox('box', {});
+        this._makeObstacle();
 
         engine.runRenderLoop((): void => {
 
@@ -37,6 +40,27 @@ export class CollideGame extends Base {
         });
 
         this._listener.addHover(this._touchMove.bind(this));
+
+    }
+
+    /**
+     * 制作障碍物
+     */
+    private _makeObstacle() {
+
+        for (let i = 0; i < 30; i++) {
+
+            const target: BABYLON.Mesh = BABYLON.MeshBuilder.CreateBox('obstacle' + i, {});
+            target.position.x = i * Math.random() * 2;
+            target.position.z = -i * Math.random() * 2;
+
+            this.meshes.push({
+                content: target,
+                size: { height: 1, width: 1, depth: 1 },
+                direction: new BABYLON.Vector3(0, 0, 0)
+            });
+
+        }
 
     }
 
@@ -57,6 +81,6 @@ export class CollideGame extends Base {
      * @param event
      */
     private _touchMove(event: HoverEvent): void {
-        this._updateCameraPosition(event.topOffset, 0, event.leftOffset);
+        this._updateCameraPosition(event.topOffset / 10, 0, event.leftOffset / 10);
     }
 }

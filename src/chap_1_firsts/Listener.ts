@@ -30,6 +30,8 @@ export class Listener {
     private _hoverCache: Set<Function>;
     /** resize 函数缓存 */
     private _resizeCache: Set<Function>;
+    /** 触摸开始函数缓存 */
+    private _startCache: Set<Function>;
 
     /**
      * 构造函数
@@ -39,6 +41,7 @@ export class Listener {
 
         this.target = target;
 
+        this._startCache = new Set();
         this._clickCache = new Set();
         this._hoverCache = new Set();
         this._resizeCache = new Set();
@@ -121,6 +124,21 @@ export class Listener {
     }
 
     /**
+     * 触摸移动执行
+     * @param event 触摸事件
+     */
+    private _touchStart(event: TouchEvent) {
+
+        const target = event.targetTouches[0];
+
+        this._currentTouchP.set(target.clientX, target.clientY);
+        this._startCache.forEach((value: Function): void => value());
+
+        this._lastTouchP = this._currentTouchP.clone();
+
+    }
+
+    /**
      * 窗口变化执行
      */
     private _resize(): void {
@@ -134,6 +152,7 @@ export class Listener {
 
         this.target.addEventListener('click', this._click.bind(this));
         this.target.addEventListener('mousemove', this._hover.bind(this));
+        this.target.addEventListener('touchstart', this._touchStart.bind(this));
         this.target.addEventListener('touchmove', this._touchMove.bind(this));
         window.addEventListener('resize', this._resize.bind(this));
 

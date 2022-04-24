@@ -64,7 +64,7 @@ export class ShootingGame extends Base {
     }
 
     /**
-     * 生成准星
+     * 制作准星
      */
     private _makeFrontSight() {
 
