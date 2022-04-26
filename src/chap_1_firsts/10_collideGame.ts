@@ -26,11 +26,14 @@ export class CollideGame extends Base {
         this.skybox.isPickable = false;
         this.ground.isPickable = false;
         this.camera.dispose();
-        this.camera = new BABYLON.UniversalCamera("", new BABYLON.Vector3(0, 2, 0), scene);
-        // this.camera.rotation.x = -0.1;
+        this.camera = new BABYLON.UniversalCamera("", new BABYLON.Vector3(0, 10, 0), scene);
         console.log(this.camera);
 
+        const material = new BABYLON.StandardMaterial('', this.scene);
+        material.diffuseColor = new BABYLON.Color3(1, 0, 0);
         this.protagonist = BABYLON.MeshBuilder.CreateBox('box', {});
+        this.protagonist.material = material;
+        this.camera.target = this.protagonist.position;
         this._makeObstacle();
 
         engine.runRenderLoop((): void => {
@@ -65,15 +68,28 @@ export class CollideGame extends Base {
     }
 
     /**
+     * 更新主角位置
+     */
+    private _updateProtagonist() {
+
+        const position = this.camera.position;
+        this.protagonist.position.x = position.x;
+        this.protagonist.position.z = position.z;
+
+    }
+
+    /**
      * 更新相机位置
      * @param x x 坐标
      * @param y y 坐标
      * @param z z 坐标
      */
     private _updateCameraPosition(x: number, y: number, z: number): void {
+
         this.camera.position.x += x;
         this.camera.position.y += y;
         this.camera.position.z += z;
+
     }
 
     /**
@@ -81,6 +97,7 @@ export class CollideGame extends Base {
      * @param event
      */
     private _touchMove(event: HoverEvent): void {
-        this._updateCameraPosition(event.topOffset / 10, 0, event.leftOffset / 10);
+        this._updateCameraPosition(event.topOffset / 100, 0, -event.leftOffset / 100);
+        this._updateProtagonist();
     }
 }
