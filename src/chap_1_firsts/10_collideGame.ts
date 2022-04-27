@@ -6,6 +6,13 @@ export class CollideGame extends Base {
     /** 主角 */
     public protagonist: BABYLON.Mesh;
 
+    /** x 限制 */
+    private _limitX: boolean;
+    /** y 限制 */
+    private _limitY: Boolean;
+    /** z 限制 */
+    private _limitZ: boolean;
+
     /**
      * 构造函数
      */
@@ -26,14 +33,13 @@ export class CollideGame extends Base {
         this.skybox.isPickable = false;
         this.ground.isPickable = false;
         this.camera.dispose();
-        this.camera = new BABYLON.UniversalCamera("", new BABYLON.Vector3(0, 10, 0), scene);
-        console.log(this.camera);
+        this.camera = new BABYLON.UniversalCamera("", new BABYLON.Vector3(0, 6, -20), scene);
 
         const material = new BABYLON.StandardMaterial('', this.scene);
         material.diffuseColor = new BABYLON.Color3(1, 0, 0);
         this.protagonist = BABYLON.MeshBuilder.CreateBox('box', {});
         this.protagonist.material = material;
-        this.camera.target = this.protagonist.position;
+        this.camera.setTarget(new BABYLON.Vector3(0, -0.0001, 0));
         this._makeObstacle();
 
         engine.runRenderLoop((): void => {
@@ -49,7 +55,7 @@ export class CollideGame extends Base {
     /**
      * 制作障碍物
      */
-    private _makeObstacle() {
+    private _makeObstacle(): void {
 
         for (let i = 0; i < 30; i++) {
 
@@ -68,27 +74,43 @@ export class CollideGame extends Base {
     }
 
     /**
-     * 更新主角位置
+     * 碰撞检测
      */
-    private _updateProtagonist() {
+    private _collisionCheck(x: number, y: number, z: number): void {
+        
+        console.log(this.meshes[0].content.getBoundingInfo().boundingBox);
+        const position = this.protagonist.position.clone();
+        position.x += x;
+        position.y += y;
+        position.z += z;
 
-        const position = this.camera.position;
-        this.protagonist.position.x = position.x;
-        this.protagonist.position.z = position.z;
+        for (let i = 0; i < this.meshes.length; i++) {
+            
+        }
 
     }
 
     /**
-     * 更新相机位置
+     * 更新主角位置
      * @param x x 坐标
      * @param y y 坐标
      * @param z z 坐标
      */
-    private _updateCameraPosition(x: number, y: number, z: number): void {
+    private _updateProtagonist(x: number, y: number, z: number): void {
 
-        this.camera.position.x += x;
-        this.camera.position.y += y;
-        this.camera.position.z += z;
+        this._collisionCheck(x, y, z);
+
+        if (!this._limitX) {
+            this.camera.position.x += x, this.protagonist.position.x += x;
+        }
+
+        if (!this._limitY) {
+            this.camera.position.y += y, this.protagonist.position.y += y;
+        }
+
+        if (!this._limitZ) {
+            this.camera.position.z += z, this.protagonist.position.z += z;
+        }
 
     }
 
@@ -97,7 +119,6 @@ export class CollideGame extends Base {
      * @param event
      */
     private _touchMove(event: HoverEvent): void {
-        this._updateCameraPosition(event.topOffset / 100, 0, -event.leftOffset / 100);
-        this._updateProtagonist();
+        this._updateProtagonist(event.topOffset / 100, 0, -event.leftOffset / 100);
     }
 }
