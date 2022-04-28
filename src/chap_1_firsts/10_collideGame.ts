@@ -39,6 +39,7 @@ export class CollideGame extends Base {
         material.diffuseColor = new BABYLON.Color3(1, 0, 0);
         this.protagonist = BABYLON.MeshBuilder.CreateBox('box', {});
         this.protagonist.material = material;
+        this.protagonist.position.z = 10;
         this.camera.setTarget(new BABYLON.Vector3(0, -0.0001, 0));
         this._makeObstacle();
 
@@ -77,16 +78,22 @@ export class CollideGame extends Base {
      * 碰撞检测
      */
     private _collisionCheck(x: number, y: number, z: number): void {
-        
-        console.log(this.meshes[0].content.getBoundingInfo().boundingBox);
-        const position = this.protagonist.position.clone();
-        position.x += x;
-        position.y += y;
-        position.z += z;
 
-        for (let i = 0; i < this.meshes.length; i++) {
-            
-        }
+        const protagonist = this.protagonist;
+
+        protagonist.position.x += x;
+        protagonist.position.y += y;
+        protagonist.position.z += z;
+
+        for (let i = 0; i < this.meshes.length; i++)  if (protagonist.intersectsMesh(this.meshes[i].content, false)) this._limitX = true;
+
+        for (let i = 0; i < this.meshes.length; i++)  if (protagonist.intersectsMesh(this.meshes[i].content, false)) this._limitY = true;
+
+        for (let i = 0; i < this.meshes.length; i++)  if (protagonist.intersectsMesh(this.meshes[i].content, false)) this._limitZ = true;
+
+        protagonist.position.x -= x;
+        protagonist.position.y -= y;
+        protagonist.position.z -= z;
 
     }
 
@@ -111,6 +118,8 @@ export class CollideGame extends Base {
         if (!this._limitZ) {
             this.camera.position.z += z, this.protagonist.position.z += z;
         }
+
+        this._limitX = this._limitY = this._limitZ = false;
 
     }
 
