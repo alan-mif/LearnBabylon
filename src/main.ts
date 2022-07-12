@@ -29,5 +29,5 @@ import './style.css';
 // snow.windSpeed.z = -1;
 // snow.mass = 0.01;
 // new Raycaster();
-// new ShootingGame();
-new CollideGame();
+new ShootingGame();
+// new CollideGame();
