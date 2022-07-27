@@ -18,12 +18,12 @@ export class ShootingGame extends Base {
 
         const { engine, scene, canvas } = this;
 
-        this._createSkybox("./textures/cube/box");
-        this.skybox.isPickable = false;
-        this.ground.isPickable = false;
-        this.ground.material.alpha = 0;
-        this.camera.dispose();
-        this.camera = new BABYLON.UniversalCamera("", new BABYLON.Vector3(), scene);
+        this._createSkybox("./textures/cube/box"); // 创建天空盒并且指定贴图
+        this.skybox.isPickable = false; // 关闭天空盒的鼠标拾取
+        this.ground.isPickable = false; // 关闭地板的鼠标拾取
+        this.ground.material.alpha = 0; // 地板透明
+        this.camera.dispose(); // 销毁原相机
+        this.camera = new BABYLON.UniversalCamera("", new BABYLON.Vector3(), scene); // 构造通用相机
         this.camera.attachControl(canvas, true); // 相机绑定控制
 
         this._initTargets();
@@ -48,14 +48,15 @@ export class ShootingGame extends Base {
      */
     private _moveTarget(alpha: number) {
          
-        alpha += 0.01;
+        alpha += 0.002;
 
+        // 改变 mesh 位置
         for (let i = 0; i < this.meshes.length; i++) {
 
             const mesh = this.meshes[i];
-            mesh.content.position.x += mesh.direction.x * Math.cos(alpha);
-            mesh.content.position.y += mesh.direction.y * Math.cos(alpha);
-            mesh.content.position.z += mesh.direction.z * Math.cos(alpha);
+            mesh.content.position.x += mesh.direction.x * Math.cos(alpha)* 0.05;
+            mesh.content.position.y += mesh.direction.y * Math.cos(alpha)* 0.05;
+            mesh.content.position.z += mesh.direction.z * Math.cos(alpha)* 0.05;
 
         }
 
@@ -95,11 +96,11 @@ export class ShootingGame extends Base {
         
         this.meshes.push({
             content: target,
-            size: { height: 1, width: 1, depth: 1 },
+            size: { height: 100, width: 100, depth: 1000 },
             direction: new BABYLON.Vector3(Math.random(), Math.random(), Math.random())
         });
 
-        for (let i = 1; i < 30; i++) {
+        for (let i = 1; i < 10; i++) {
 
             const target1 = target.clone();
             target1.position.x = i * Math.random();
