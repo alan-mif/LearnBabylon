@@ -46,9 +46,9 @@ export class ShootingGame extends Base {
     /**
      * 移动靶子
      */
-    private _moveTarget(alpha: number) {
-         
-        alpha += 0.002;
+    private _moveTarget(alpha: number): number {
+
+        alpha += 0.01;
 
         // 改变 mesh 位置
         for (let i = 0; i < this.meshes.length; i++) {
@@ -67,7 +67,7 @@ export class ShootingGame extends Base {
     /**
      * 制作准星
      */
-    private _makeFrontSight() {
+    private _makeFrontSight(): void {
 
         const body = document.body,
             img = document.createElement('img');
@@ -93,7 +93,7 @@ export class ShootingGame extends Base {
         target.position.x = 5 * Math.random() * 0.5;
         target.position.y = 1 * Math.random() * 0.5;
         target.position.z = -5 * Math.random() * 0.5;
-        
+
         this.meshes.push({
             content: target,
             size: { height: 100, width: 100, depth: 1000 },
