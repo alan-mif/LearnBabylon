@@ -2,6 +2,9 @@ import { Base } from "./Base";
 
 export class ShootingGame extends Base {
 
+    /** 背景音乐 */
+    private _backgroundMusic: BABYLON.Sound;
+
     /**
      * 构造函数
      */
@@ -29,6 +32,8 @@ export class ShootingGame extends Base {
         this._initTargets();
         this._makeFrontSight();
 
+        this._backgroundMusic = new BABYLON.Sound("hdl", "./sound/hdl.mp3", scene, null, { loop: true, autoplay: true });
+
         let alpha = Math.PI;
 
         engine.runRenderLoop((): void => {
@@ -54,9 +59,9 @@ export class ShootingGame extends Base {
         for (let i = 0; i < this.meshes.length; i++) {
 
             const mesh = this.meshes[i];
-            mesh.content.position.x += mesh.direction.x * Math.cos(alpha)* 0.05;
-            mesh.content.position.y += mesh.direction.y * Math.cos(alpha)* 0.05;
-            mesh.content.position.z += mesh.direction.z * Math.cos(alpha)* 0.05;
+            mesh.content.position.x += mesh.direction.x * Math.cos(alpha) * 0.05;
+            mesh.content.position.y += mesh.direction.y * Math.cos(alpha) * 0.05;
+            mesh.content.position.z += mesh.direction.z * Math.cos(alpha) * 0.05;
 
         }
 
@@ -89,7 +94,7 @@ export class ShootingGame extends Base {
      */
     private _initTargets(): void {
 
-        const target: BABYLON.Mesh = BABYLON.MeshBuilder.CreateBox('box', {});
+        const target: BABYLON.Mesh = BABYLON.MeshBuilder.CreateBox('box0', {});
         target.position.x = 5 * Math.random() * 0.5;
         target.position.y = 1 * Math.random() * 0.5;
         target.position.z = -5 * Math.random() * 0.5;
@@ -103,6 +108,7 @@ export class ShootingGame extends Base {
         for (let i = 1; i < 10; i++) {
 
             const target1 = target.clone();
+            target1.id = 'box' + i;
             target1.position.x = i * Math.random();
             target1.position.y = i * Math.random();
             target1.position.z = -i * Math.random();
@@ -124,11 +130,13 @@ export class ShootingGame extends Base {
      */
     private _click(): void {
 
+        new BABYLON.Sound("laser", "./sound/laser.wav", this.scene, null, { loop: false, autoplay: true }); // 激光音效
+
         const pickResult: BABYLON.PickingInfo = this.scene.pick(this.canvas.width / 2, this.canvas.height / 2),
             pickedMesh = pickResult.pickedMesh;
 
         if (pickedMesh) {
-            this.scene.beginAnimation(pickedMesh, 0, 100, false).onAnimationEnd = (): void => pickedMesh.dispose();
+            this.scene.beginAnimation(pickedMesh, 0, 100, false).onAnimationEnd = (): void => this._removeTarget(pickedMesh);
         }
 
     }
@@ -137,6 +145,35 @@ export class ShootingGame extends Base {
      * 滑动执行
      */
     private _hover(): void {
+    }
+
+    /**
+     * 移除靶子
+     * @param mesh 
+     */
+    private _removeTarget(mesh: BABYLON.AbstractMesh): void {
+
+        for (let i = 0; i < this.meshes.length; i++) {
+
+            if (this.meshes[i].content.id === mesh.id) {
+
+                this.meshes.splice(i, 1);
+
+                mesh.dispose();
+
+                break;
+            }
+
+        }
+
+        // 当所有靶子移除完毕后，更换通关成功bgm
+        if (this.meshes.length === 0) {
+
+            this._backgroundMusic.dispose();
+            this._backgroundMusic = new BABYLON.Sound("mario", "./sound/Mario.mp3", this.scene, null, { loop: false, autoplay: true });
+
+        }
+
     }
 
     /**
