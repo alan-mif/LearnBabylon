@@ -30,7 +30,6 @@ export class Raycaster extends Base {
 
     /**
      * 点击执行
-     * @param event 鼠标事件
      */
     private _click(): void {
 

@@ -13,6 +13,7 @@ import { Raycaster } from './chap_1_firsts/10_raycaster';
 import { ShootingGame } from './chap_1_firsts/10_shootingGame';
 import { CollideGame } from './chap_1_firsts/10_collideGame';
 import './style.css';
+import { Sound } from './chap_1_firsts/11_sound';
 
 // new HelloWorld();
 // new MeshBuilder();
@@ -29,5 +30,6 @@ import './style.css';
 // snow.windSpeed.z = -1;
 // snow.mass = 0.01;
 // new Raycaster();
-new ShootingGame();
+// new ShootingGame();
+new Sound();
 // new CollideGame();
