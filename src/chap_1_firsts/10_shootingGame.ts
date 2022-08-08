@@ -32,7 +32,7 @@ export class ShootingGame extends Base {
         this._initTargets();
         this._makeFrontSight();
 
-        this._backgroundMusic = new BABYLON.Sound("hdl", "./sound/hdl.mp3", scene, null, { loop: true, autoplay: true });
+        // this._backgroundMusic = new BABYLON.Sound("hdl", "./sound/hdl.mp3", scene, null, { loop: true, autoplay: true });
 
         let alpha = Math.PI;
 
@@ -153,24 +153,27 @@ export class ShootingGame extends Base {
      */
     private _removeTarget(mesh: BABYLON.AbstractMesh): void {
 
-        for (let i = 0; i < this.meshes.length; i++) {
+        const { scene, meshes } = this;
 
-            if (this.meshes[i].content.id === mesh.id) {
+        for (let i = 0; i < meshes.length; i++) {
 
-                this.meshes.splice(i, 1);
+            if (meshes[i].content.id === mesh.id) {
 
-                mesh.dispose();
+                meshes.splice(i, 1);
+
+                new BABYLON.Sound("explode", "./sound/explode.mp3", scene, (): void => mesh.dispose(), { loop: false, autoplay: true }).attachToMesh(mesh);
 
                 break;
+                
             }
 
         }
 
-        // 当所有靶子移除完毕后，更换通关成功bgm
-        if (this.meshes.length === 0) {
+        // 当所有靶子移除完毕后，更换通关bgm
+        if (meshes.length === 0) {
 
             this._backgroundMusic.dispose();
-            this._backgroundMusic = new BABYLON.Sound("mario", "./sound/Mario.mp3", this.scene, null, { loop: false, autoplay: true });
+            this._backgroundMusic = new BABYLON.Sound("mario", "./sound/Mario.mp3", scene, null, { loop: false, autoplay: true });
 
         }
 

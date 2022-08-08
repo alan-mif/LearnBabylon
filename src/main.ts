@@ -30,6 +30,6 @@ import { Sound } from './chap_1_firsts/11_sound';
 // snow.windSpeed.z = -1;
 // snow.mass = 0.01;
 // new Raycaster();
-// new ShootingGame();
-new Sound();
 // new CollideGame();
+new ShootingGame();
+// new Sound();
