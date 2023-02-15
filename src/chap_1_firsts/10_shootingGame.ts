@@ -32,7 +32,7 @@ export class ShootingGame extends Base {
         this._initTargets();
         this._makeFrontSight();
 
-        // this._backgroundMusic = new BABYLON.Sound("hdl", "./sound/hdl.mp3", scene, null, { loop: true, autoplay: true });
+        this._backgroundMusic = new BABYLON.Sound("hdl", "./sound/hdl.mp3", scene, null, { loop: true, autoplay: true });
 
         let alpha = Math.PI;
 
